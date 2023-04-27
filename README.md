@@ -3,6 +3,10 @@ Quizzoto est une application de quizz qui permettra aux utilisateurs de répondr
 
 L'application sera construite à travers plusieurs étapes qui sont les suivantes :
 
+
+## Etape 0 (POC)
+Une simple appli statique ou l'utilisateur peut répondre à un quizz et savoir le résultat.
+
 ## Etape 1 (MVP)
 Il faut commencer par pouvoir lire un quizz, qui peut par exemple se trouver dans un fichier JSON.
 Il faut bien réfléchir à comment cacher les réponses des quizz à l'utilisateur.
