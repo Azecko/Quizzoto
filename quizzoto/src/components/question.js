@@ -1,4 +1,4 @@
-import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, FormGroup, Checkbox } from "@mui/material"
+import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, FormGroup, Checkbox, TextField } from "@mui/material"
 
 export default function Question({ question }) {
     switch(question.questionType) {
@@ -30,6 +30,10 @@ export default function Question({ question }) {
                         })
                     }
                 </FormGroup>
+            )
+        case 'textfield':
+            return (
+                <TextField label="Réponse ici" variant="outlined" />
             )
     }
 }
