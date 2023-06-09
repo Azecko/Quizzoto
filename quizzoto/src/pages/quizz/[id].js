@@ -64,7 +64,7 @@ export default function Quizz() {
               <h3>{quizz.quizzDescription}</h3>
             </div>
           ) : (
-            <h2>Ca charge</h2>
+            <h2>Chargement...</h2>
           )
         }
 
