@@ -1,4 +1,4 @@
-import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from "@mui/material"
+import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, FormGroup, Checkbox } from "@mui/material"
 
 export default function Question({ question }) {
     switch(question.questionType) {
@@ -18,6 +18,18 @@ export default function Question({ question }) {
                         }
                     </RadioGroup>
                 </FormControl>
+            )
+        case 'checkboxes':
+            return (
+                <FormGroup>
+                    {
+                        question.answers.map(e => {
+                            return (
+                                <FormControlLabel control={<Checkbox />} label={e}/>
+                            )
+                        })
+                    }
+                </FormGroup>
             )
     }
 }
