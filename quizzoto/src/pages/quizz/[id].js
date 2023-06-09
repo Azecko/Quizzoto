@@ -4,6 +4,7 @@ import { set, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import fetchQuizz from '../../../lib/fetchQuizz'
+import Question from "@/components/question";
 
 export default function Quizz() {
   const [quizz, setQuizz] = useState()
@@ -61,7 +62,17 @@ export default function Quizz() {
           ) : quizz ? (
             <div>
               <h1>{quizz.quizzTitle}</h1>
-              <h3>{quizz.quizzDescription}</h3>
+              <h2>{quizz.quizzDescription}</h2>
+              {
+                quizz.questions.map(q => {
+                  return (
+                    <div>
+                      <h3>{q.questionTitle}</h3>
+                      <Question question={q}/>
+                    </div>
+                  )
+                })
+              }
             </div>
           ) : (
             <h2>Chargement...</h2>
