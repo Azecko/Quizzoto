@@ -4,6 +4,7 @@ import { set, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import fetchQuizz from '../../../lib/fetchQuizz'
+import Question from "@/components/question";
 
 export default function Quizz() {
   const [quizz, setQuizz] = useState()
@@ -22,26 +23,16 @@ export default function Quizz() {
     getData()
   }, [router.query.id]);
 
-  const { register, handleSubmit } = useForm({
-    defaultValues: {
-      whichLangIsThat: {
-        questionNumber: "1",
-        correctAnswer: "JavaScript"
-      },
-      whichLangSkeleton: {
-        questionNumber: "2",
-        correctAnswer: "HTML"
-      }
-    }
-  });
+  const { register, handleSubmit } = useForm();
   
-  // const onSubmit = data => {
-  //   const newData = JSON.stringify(data)
-  //   router.push({
-  //     pathname: '/results',
-  //     query: { newData },
-  //   }, '/results')
-  // }
+  const onSubmit = data => {
+    // const newData = JSON.stringify(data)
+    // router.push({
+    //   pathname: '/results',
+    //   query: { newData },
+    // }, '/results')
+    console.log(data)
+  }
   return (
     <>
       <Head>
@@ -60,11 +51,24 @@ export default function Quizz() {
             <p>Merci de fournir un id de quizz correct dans l'URL.</p>
           ) : quizz ? (
             <div>
-              <h1>{quizz.quizzTitle}</h1>
-              <h3>{quizz.quizzDescription}</h3>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <h1>{quizz.quizzTitle}</h1>
+                <h2>{quizz.quizzDescription}</h2>
+                {
+                  quizz.questions.map(q => {
+                    return (
+                      <div>
+                        <h3>{q.questionTitle}</h3>
+                        <Question question={q} register={register}/>
+                      </div>
+                    )
+                  })
+                }
+                <Button type='submit' variant='contained'>Fin</Button>
+              </form>
             </div>
           ) : (
-            <h2>Ca charge</h2>
+            <h2>Chargement...</h2>
           )
         }
 
