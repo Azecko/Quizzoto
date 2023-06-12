@@ -1,6 +1,6 @@
 import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, FormGroup, Checkbox, TextField } from "@mui/material"
 
-export default function Question({ question }) {
+export default function Question({ question, register }) {
     switch(question.questionType) {
         case 'radios':
             return (
@@ -12,7 +12,7 @@ export default function Question({ question }) {
                         {
                             question.answers.map(e => {
                                 return (
-                                    <FormControlLabel value={e} control={<Radio />} label={e} />
+                                    <FormControlLabel {...register(question.questionTitle)} value={e} control={<Radio />} label={e} />
                                 )
                             })
                         }
@@ -25,7 +25,7 @@ export default function Question({ question }) {
                     {
                         question.answers.map(e => {
                             return (
-                                <FormControlLabel control={<Checkbox />} label={e}/>
+                                <FormControlLabel {...register(question.questionTitle)} value={e} control={<Checkbox />} label={e}/>
                             )
                         })
                     }
@@ -33,7 +33,7 @@ export default function Question({ question }) {
             )
         case 'textfield':
             return (
-                <TextField label="Réponse ici" variant="outlined" />
+                <TextField {...register(question.questionTitle)} label="Réponse ici" variant="outlined" />
             )
     }
 }
