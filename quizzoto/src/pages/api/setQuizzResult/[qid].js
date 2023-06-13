@@ -16,13 +16,32 @@ export default async function handler(req, res) {
         return res.status(422).json({ statusCode: 422, message: `Please provide a valid quizz's object id.`})
     }
 
-    const answers = req.body
+    function isJsonString(str) {
+        try {
+            JSON.parse(str);
+        } catch (e) {
+            return req.body
+        }
+        return JSON.parse(req.body);
+    }
+
+    const answers = isJsonString(req.body)
     var results = {}
     var score = 0
 
     quizz.questions.map(question => {
         switch(question.questionType) {
             case 'radios':
+                if(answers[question.questionTitle] == null) {
+                    score = score - question.minusPointsIfWrong
+                    return results[question.questionTitle] = {
+                        questionTitle: question.questionTitle,
+                        answeredCorrectly: false,
+                        points: `-${question.minusPointsIfWrong}`,
+                        userAnswer: answers[question.questionTitle],
+                        correctAnswer: question.correctAnswer
+                    }
+                }
                 score = answers[question.questionTitle].toLowerCase() == question.correctAnswer.toLowerCase() ? score + question.pointsIfCorrect : score - question.minusPointsIfWrong
                 results[question.questionTitle] = {
                     questionTitle: question.questionTitle,
@@ -33,6 +52,18 @@ export default async function handler(req, res) {
                 }
             break;
             case 'checkboxes':
+
+                if(answers[question.questionTitle] == false || answers[question.questionTitle].length == 0) {
+                    score = score - question.minusPointsIfWrong
+                    return results[question.questionTitle] = {
+                        questionTitle: question.questionTitle,
+                        answeredCorrectly: false,
+                        points: `-${question.minusPointsIfWrong}`,
+                        userAnswer: answers[question.questionTitle],
+                        correctAnswer: question.correctAnswer
+                    }
+                }
+
                 let sortedQuizzAnswers = question.correctAnswer.slice().sort()
                 let sortedUserAnswers = answers[question.questionTitle].slice().sort()
 
@@ -71,5 +102,17 @@ export default async function handler(req, res) {
         }
     })
 
-    return res.status(200).json({score, results})
+    let returnObject = {
+        quizz: {
+            id: quizz._id,
+            title: quizz.quizzTitle,
+            description: quizz.quizzDescription
+        },
+        score,
+        results
+    }
+
+    db.collection('results').insertOne(returnObject)
+
+    return res.status(200).json(returnObject)
 }
