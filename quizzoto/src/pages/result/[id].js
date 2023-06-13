@@ -39,6 +39,38 @@ export default function Quizz() {
           ) : result ? (
             <div>
               <h1>{result.quizz.title}</h1>
+              <h2>Score total : {result.score}</h2>
+              <h2>Résultats</h2>
+              {result.results.map(e => {
+                return (
+                  <div>
+                    <h3>{e.questionTitle} {e.answeredCorrectly ? '✅' : '❌'} {e.points} score</h3>
+                    {e.answeredCorrectly ? (
+                      <h4>Votre réponse : {typeof(e.userAnswer) == 'string' ? e.userAnswer : (
+                        <ul>
+                          {e.userAnswer.map(e => <li>{e}</li>)}
+                        </ul>
+                        )}
+                      </h4>
+                    ) : (
+                      <div>
+                        <h4>Votre réponse : {typeof(e.userAnswer) == 'string' ? e.userAnswer : (
+                          <ul>
+                            {e.userAnswer.map(e => <li>{e}</li>)}
+                          </ul>
+                          )}
+                        </h4>
+                        <h4>Réponse correcte : {typeof(e.correctAnswer) == 'string' ? e.correctAnswer : (
+                            <ul>
+                              {e.correctAnswer.map(e => <li>{e}</li>)}
+                            </ul>
+                          )}
+                        </h4>
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
             </div>
           ) : (
             <h2>Chargement...</h2>
