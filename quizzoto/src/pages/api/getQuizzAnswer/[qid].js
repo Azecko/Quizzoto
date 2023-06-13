@@ -1,4 +1,4 @@
-import collection from "../../../../lib/mongodb";
+import db from "../../../../lib/mongodb";
 
 var mongodb = require('mongodb')
 
@@ -11,7 +11,7 @@ export default async function handler(req, res) {
         return res.status(422).json({ statusCode: 422, message: `Please provide a valid quizz's object id.`})
     }
 
-    const quizz = await collection.findOne({'_id': new mongodb.ObjectId(req.query.qid)})
+    const quizz = await db.collection('quizzs').findOne({'_id': new mongodb.ObjectId(req.query.qid)})
     if(quizz == null) {
         return res.status(422).json({ statusCode: 422, message: `Please provide a valid quizz's object id.`})
     }
