@@ -26,7 +26,7 @@ export default async function handler(req, res) {
     }
 
     const answers = isJsonString(req.body)
-    var results = {}
+    var results = []
     var score = 0
 
     quizz.questions.map(question => {
@@ -34,34 +34,34 @@ export default async function handler(req, res) {
             case 'radios':
                 if(answers[question.questionTitle] == null) {
                     score = score - question.minusPointsIfWrong
-                    return results[question.questionTitle] = {
+                    return results.push({
                         questionTitle: question.questionTitle,
                         answeredCorrectly: false,
                         points: `-${question.minusPointsIfWrong}`,
                         userAnswer: answers[question.questionTitle],
                         correctAnswer: question.correctAnswer
-                    }
+                    })
                 }
                 score = answers[question.questionTitle].toLowerCase() == question.correctAnswer.toLowerCase() ? score + question.pointsIfCorrect : score - question.minusPointsIfWrong
-                results[question.questionTitle] = {
+                results.push({
                     questionTitle: question.questionTitle,
                     answeredCorrectly: answers[question.questionTitle].toLowerCase() == question.correctAnswer.toLowerCase() ? true : false,
                     points: answers[question.questionTitle].toLowerCase() == question.correctAnswer.toLowerCase() ? `+${question.pointsIfCorrect}` : `-${question.minusPointsIfWrong}`,
                     userAnswer: answers[question.questionTitle],
                     correctAnswer: question.correctAnswer
-                }
+                })
             break;
             case 'checkboxes':
 
                 if(answers[question.questionTitle] == false || answers[question.questionTitle].length == 0) {
                     score = score - question.minusPointsIfWrong
-                    return results[question.questionTitle] = {
+                    return results.push({
                         questionTitle: question.questionTitle,
                         answeredCorrectly: false,
                         points: `-${question.minusPointsIfWrong}`,
                         userAnswer: answers[question.questionTitle],
                         correctAnswer: question.correctAnswer
-                    }
+                    })
                 }
 
                 let sortedQuizzAnswers = question.correctAnswer.slice().sort()
@@ -70,34 +70,34 @@ export default async function handler(req, res) {
                 for (let i = 0; i < sortedQuizzAnswers.length; i++) {
                     if (JSON.stringify(sortedQuizzAnswers[i].toLowerCase()) !== JSON.stringify(sortedUserAnswers[i].toLowerCase())) {
                         score = score - question.minusPointsIfWrong
-                        return results[question.questionTitle] = {
+                        return results.push({
                             questionTitle: question.questionTitle,
                             answeredCorrectly: false,
                             points: `-${question.minusPointsIfWrong}`,
                             userAnswer: answers[question.questionTitle],
                             correctAnswer: question.correctAnswer
-                        }
+                        })
                     }
-                  }
+                }
                 
                 score = score + question.pointsIfCorrect
-                results[question.questionTitle] = {
+                results.push({
                     questionTitle: question.questionTitle,
                     answeredCorrectly: true,
                     points: `+${question.pointsIfCorrect}`,
                     userAnswer: answers[question.questionTitle],
                     correctAnswer: question.correctAnswer
-                }
+                })
             break;
             case 'textfield':
                 score = question.correctAnswer.includes(answers[question.questionTitle].toLowerCase()) ? score + question.pointsIfCorrect : score - question.minusPointsIfWrong
-                results[question.questionTitle] = {
+                results.push({
                     questionTitle: question.questionTitle,
                     answeredCorrectly: question.correctAnswer.includes(answers[question.questionTitle].toLowerCase()) ? true : false,
                     points: question.correctAnswer.includes(answers[question.questionTitle].toLowerCase()) ? `+${question.pointsIfCorrect}` : `-${question.minusPointsIfWrong}`,
                     userAnswer: answers[question.questionTitle],
                     correctAnswer: question.correctAnswer
-                }
+                })
             break;
         }
     })
