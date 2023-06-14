@@ -10,6 +10,5 @@ const dbName = 'quizzoto';
 client.connect();
 console.log('Connected successfully to server');
 const db = client.db(dbName);
-const collection = db.collection('quizzs');
 
-module.exports = collection;
+module.exports = db;

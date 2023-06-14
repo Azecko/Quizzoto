@@ -3,7 +3,8 @@ import Head from "next/head";
 import { set, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import fetchQuizz from '../../../lib/fetchQuizz'
+import fetchQuizz from '../../../lib/fetchQuizz';
+import setQuizzResult from "../../../lib/setQuizzResult";
 import Question from "@/components/question";
 
 export default function Quizz() {
@@ -25,13 +26,11 @@ export default function Quizz() {
 
   const { register, handleSubmit } = useForm();
   
-  const onSubmit = data => {
-    // const newData = JSON.stringify(data)
-    // router.push({
-    //   pathname: '/results',
-    //   query: { newData },
-    // }, '/results')
-    console.log(data)
+  const onSubmit = async(data) => {
+    const result = await setQuizzResult(router.query.id, data)
+    router.push({
+      pathname: `/result/${result._id}`,
+    })
   }
   return (
     <>
