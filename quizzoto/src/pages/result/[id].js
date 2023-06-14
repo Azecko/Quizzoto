@@ -3,6 +3,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import fetchResult from "../../../lib/fetchResult";
+import Result from "@/components/result";
 
 export default function Quizz() {
   const [result, setResult] = useState()
@@ -43,31 +44,9 @@ export default function Quizz() {
               <h2>Résultats</h2>
               {result.results.map(e => {
                 return (
-                  <div>
+                  <div key={e}>
                     <h3>{e.questionTitle} {e.answeredCorrectly ? '✅' : '❌'} {e.points} score</h3>
-                    {e.answeredCorrectly ? (
-                      <h4>Votre réponse : {typeof(e.userAnswer) == 'string' ? e.userAnswer : (
-                        <ul>
-                          {e.userAnswer.map(e => <li>{e}</li>)}
-                        </ul>
-                        )}
-                      </h4>
-                    ) : (
-                      <div>
-                        <h4>Votre réponse : {typeof(e.userAnswer) == 'string' ? e.userAnswer : (
-                          <ul>
-                            {e.userAnswer.map(e => <li>{e}</li>)}
-                          </ul>
-                          )}
-                        </h4>
-                        <h4>Réponse correcte : {typeof(e.correctAnswer) == 'string' ? e.correctAnswer : (
-                            <ul>
-                              {e.correctAnswer.map(e => <li>{e}</li>)}
-                            </ul>
-                          )}
-                        </h4>
-                      </div>
-                    )}
+                    <Result result={e}/>
                   </div>
                 )
               })}
