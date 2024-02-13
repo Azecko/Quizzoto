@@ -4,8 +4,7 @@ import { set, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import fetchQuizz from '../../../lib/fetchQuizz';
-import setQuizzResult from "../../../lib/setQuizzResult";
-import Question from "@/components/question";
+import QuizzTimeline from '@/components/quizzTimeline';
 
 export default function Quizz() {
   const [quizz, setQuizz] = useState()
@@ -65,7 +64,7 @@ export default function Quizz() {
                 }
                 <Button type='submit' variant='contained'>Fin</Button>
               </form>
-            </div>
+							<QuizzTimeline quizz={quizz} />
           ) : (
             <h2>Chargement...</h2>
           )
