@@ -65,6 +65,7 @@ export default function Quizz() {
 							<Button type="submit" variant="contained">
 								Fin
 							</Button>
+							</form>
 						</Box>
 						<Box gridColumn="span 4">
 							<QuizzTimeline quizz={quizz} />
