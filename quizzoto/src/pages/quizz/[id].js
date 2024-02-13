@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import fetchQuizz from '../../../lib/fetchQuizz';
 import QuizzTimeline from '@/components/quizzTimeline';
+import Box from '@mui/material/Box';
 
 export default function Quizz() {
   const [quizz, setQuizz] = useState()
@@ -42,32 +43,36 @@ export default function Quizz() {
 				<link rel="stylesheet" href="/quizz.css" />
       </Head>
       <main>
-        {
-          quizz?.statusCode ? (
+				{quizz?.statusCode ? (
             <p>Merci de fournir un id de quizz correct dans l'URL.</p>
           ) : quizz ? (
-            <div>
-              <form onSubmit={handleSubmit(onSubmit)}>
+					<Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2}>
+						<Box gridColumn="span 12">
                 <h1>{quizz.quizzTitle}</h1>
                 <h2>{quizz.quizzDescription}</h2>
-                {
-                  quizz.questions.map(q => {
+						</Box>
+						<Box gridColumn="span 8">
+							<form onSubmit={handleSubmit(onSubmit)}>
+								{quizz.questions.map((q, index) => {
                     return (
-                      <div>
+										<div key={index}>
                         <h3>{q.questionTitle}</h3>
-                        <Question question={q} register={register}/>
+											<Question question={q} register={register} />
                       </div>
-                    )
-                  })
-                }
-                <Button type='submit' variant='contained'>Fin</Button>
+									);
+								})}
               </form>
+							<Button type="submit" variant="contained">
+								Fin
+							</Button>
+						</Box>
+						<Box gridColumn="span 4">
 							<QuizzTimeline quizz={quizz} />
+						</Box>
+					</Box>
           ) : (
             <h2>Chargement...</h2>
-          )
-        }
-
+				)}
       </main>
     </>
   );
