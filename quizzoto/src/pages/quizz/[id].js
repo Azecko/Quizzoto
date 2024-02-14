@@ -75,7 +75,7 @@ export default function Quizz() {
 							</form>
 						</Box>
 						<Box gridColumn="span 4">
-							<QuizzTimeline quizzId={router.query.id} questionId={questionId} />
+							<QuizzTimeline quizzId={router.query.id} questionId={questionId} UserAnswer={UserAnswer} />
 						</Box>
 					</Box>
           ) : (

@@ -8,7 +8,7 @@ import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import fetchTimeline from '../../lib/fetchTimeline';
 
-export default function QuizzTimeline({ quizzId, questionId }) {
+export default function QuizzTimeline({ quizzId, questionId, UserAnswer }) {
 	const [questions, setQuestions] = useState();
 
 	useEffect(() => {
@@ -32,7 +32,7 @@ export default function QuizzTimeline({ quizzId, questionId }) {
 			{questions.questions.map((question, index) => (
 				<TimelineItem key={index}>
 					<TimelineSeparator>
-						<TimelineDot color={index === questionId - 1 ? 'secondary' : 'primary'} />
+						<TimelineDot color={index === questionId - 1 ? 'secondary' : UserAnswer[index + 1] != undefined ? 'success' : 'info'} />
 						{index !== questions.questions.length - 1 && <TimelineConnector />}
 					</TimelineSeparator>
 					<TimelineContent>{question.questionTitle}</TimelineContent>
