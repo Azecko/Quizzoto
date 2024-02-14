@@ -1,14 +1,19 @@
-import { FormControl, RadioGroup, FormControlLabel, Radio, Button } from "@mui/material";
-import Head from "next/head";
-import { set, useForm } from "react-hook-form";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { FormControl, RadioGroup, FormControlLabel, Radio, Button } from '@mui/material';
+import Head from 'next/head';
+import { set, useForm } from 'react-hook-form';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import fetchQuizz from '../../../lib/fetchQuizz';
+import setQuizzResult from '../../../lib/setQuizzResult';
+import Question from '@/components/question';
 import QuizzTimeline from '@/components/quizzTimeline';
 import Box from '@mui/material/Box';
 
 export default function Quizz() {
-  const [quizz, setQuizz] = useState()
+	const [quizz, setQuizz] = useState();
+	const [UserAnswer, setUserAnswer] = useState({});
+
+	const [questionId, setQuestionId] = useState(1);
 
   const router = useRouter()
 
@@ -18,20 +23,27 @@ export default function Quizz() {
     }
 
     const getData = async () => {
-      const jsonData = await fetchQuizz(router.query.id);
-      setQuizz(jsonData)
-    }
-    getData()
-  }, [router.query.id]);
+			const jsonData = await fetchQuizz(router.query.id, questionId);
+			setQuizz(jsonData);
+		};
+		getData();
+	}, [questionId]);
+
+	useEffect(() => {
+		setQuestionId(parseInt(router.query.q));
+	}, [router.query.q]);
 
   const { register, handleSubmit } = useForm();
   
-  const onSubmit = async(data) => {
-    const result = await setQuizzResult(router.query.id, data)
-    router.push({
-      pathname: `/result/${result._id}`,
-    })
-  }
+	const onSubmit = (data) => {
+		setUserAnswer(data);
+
+		const nextQuestionId = questionId + 1;
+		setQuestionId(nextQuestionId);
+		console.log(UserAnswer);
+		router.push({ pathname: `/quizz/${router.query.id}`, query: { q: nextQuestionId } }, undefined, { shallow: true });
+	};
+
   return (
     <>
       <Head>
@@ -53,22 +65,17 @@ export default function Quizz() {
 						</Box>
 						<Box gridColumn="span 8">
 							<form onSubmit={handleSubmit(onSubmit)}>
-								{quizz.questions.map((q, index) => {
-                    return (
-										<div key={index}>
-                        <h3>{q.questionTitle}</h3>
-											<Question question={q} register={register} />
+								<div>
+									<h3>{quizz.questions.questionTitle}</h3>
+									<Question question={quizz.questions} register={register} questionId={questionId} />
                       </div>
-									);
-								})}
-              </form>
 							<Button type="submit" variant="contained">
-								Fin
+									Question suivante
 							</Button>
 							</form>
 						</Box>
 						<Box gridColumn="span 4">
-							<QuizzTimeline quizz={quizz} />
+							<QuizzTimeline quizzId={router.query.id} questionId={questionId} />
 						</Box>
 					</Box>
           ) : (

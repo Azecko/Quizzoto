@@ -1,6 +1,6 @@
-export default async function fetchQuizz(quizzId) {
+export default async function fetchQuizz(quizzId, questionId) {
 	try {
-		const response = await fetch(`/api/quizz/${quizzId}`);
+		const response = await fetch(`/api/quizz/${quizzId}?q=${questionId}`);
 		const jsonData = await response.json();
 		return jsonData;
 	} catch (error) {
