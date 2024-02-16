@@ -24,7 +24,11 @@ export default async function handler(req, res) {
 	} else {
 		console.log(req.query);
 		if (req.query.q !== 'timeline') {
+			if (req.query.q == NaN || !req.query.q) {
+				req.query.q = 1;
+			}
 			const questionIndex = parseInt(req.query.q);
+			quizz['questionsNumber'] = quizz.questions.length;
 			if (questionIndex > quizz.questions.length || questionIndex < 1) {
 				return res.status(422).json({ statusCode: 422, message: `Please provide a valid question index.` });
 			}
