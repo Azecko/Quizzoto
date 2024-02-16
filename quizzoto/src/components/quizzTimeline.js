@@ -21,6 +21,29 @@ export default function QuizzTimeline({ quizzId, questionId, userAnswer, result 
 		getData();
 	}, [quizzId]);
 
+	if (result != undefined) {
+		return result ? (
+			<Timeline
+				sx={{
+					[`& .${timelineItemClasses.root}:before`]: {
+						flex: 0,
+						padding: 0,
+					},
+				}}>
+				{result.results.map((question, index) => (
+					<TimelineItem key={index}>
+						<TimelineSeparator>
+							<TimelineDot color={question.answeredCorrectly ? 'success' : 'error'} />
+							{index !== result.results.length - 1 && <TimelineConnector />}
+						</TimelineSeparator>
+						<TimelineContent>{question.questionTitle}</TimelineContent>
+					</TimelineItem>
+				))}
+			</Timeline>
+		) : (
+			<h1>Loading...</h1>
+		);
+	} else {
 	return questions ? (
 		<Timeline
 			sx={{
@@ -42,4 +65,5 @@ export default function QuizzTimeline({ quizzId, questionId, userAnswer, result 
 	) : (
 		<h1>Loading...</h1>
 	);
+	}
 }
