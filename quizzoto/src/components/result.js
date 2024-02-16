@@ -11,7 +11,6 @@ export default function Result({ result }) {
 				return (
 					<>
 						<TableCell align="right">{result.correctAnswer}</TableCell>
-						<TableCell align="right"></TableCell>
 					</>
 				);
 			case 'object':
@@ -22,7 +21,6 @@ export default function Result({ result }) {
 								return <span key={index}>{e}, </span>;
 							})}
 						</TableCell>
-						<TableCell align="right"></TableCell>
 					</>
 				);
 		}
@@ -33,7 +31,7 @@ export default function Result({ result }) {
 			return (
 				<>
 					<TableCell align="right">{result.userAnswer}</TableCell>
-					{!result.answeredCorrectly && ifWrong(result)}
+					{!result.answeredCorrectly ? ifWrong(result) : <TableCell align="right"></TableCell>}
 				</>
 			);
 		case 'object':
@@ -44,7 +42,7 @@ export default function Result({ result }) {
 							return <span key={index}>{e}, </span>;
 						})}
 					</TableCell>
-					{!result.answeredCorrectly && ifWrong(result)}
+					{!result.answeredCorrectly ? ifWrong(result) : <TableCell align="right"></TableCell>}
 				</>
 			);
 	}
