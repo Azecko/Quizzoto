@@ -15,10 +15,10 @@ export default function Quizz() {
 
 	const [questionId, setQuestionId] = useState(1);
 
-  const router = useRouter()
+	const router = useRouter();
 
   useEffect(() => {
-    if(!router.query.id)  {
+		if (!router.query.id || !router.query.q || router.query.q > questionId) {
       return;
     }
 
@@ -27,21 +27,35 @@ export default function Quizz() {
 			setQuizz(jsonData);
 		};
 		getData();
-	}, [questionId]);
+	}, [questionId, router.query.id]);
 
 	useEffect(() => {
+		if (router.query.q == undefined) {
+			setQuestionId(parseInt(1));
+		} else {
 		setQuestionId(parseInt(router.query.q));
+		}
 	}, [router.query.q]);
 
   const { register, handleSubmit } = useForm();
   
+	async function getResult(UserAnswer) {
+		const result = await setQuizzResult(router.query.id, UserAnswer);
+		await router.push({
+			pathname: `/result/${result._id}`,
+		});
+	}
 	const onSubmit = (data) => {
 		setUserAnswer(data);
 
+		if (questionId === quizz['questionsNumber']) {
+			console.log(UserAnswer);
+			getResult(data);
+		} else {
 		const nextQuestionId = questionId + 1;
 		setQuestionId(nextQuestionId);
-		console.log(UserAnswer);
 		router.push({ pathname: `/quizz/${router.query.id}`, query: { q: nextQuestionId } }, undefined, { shallow: true });
+		}
 	};
 
   return (
