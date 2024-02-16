@@ -1,5 +1,8 @@
 db = db.getSiblingDB('quizzoto');
 
+db.createCollection('results');
+db.createCollection('quizzs');
+
 db.quizzs.insert([
 	{
 		quizzTitle: 'Super quizz',
