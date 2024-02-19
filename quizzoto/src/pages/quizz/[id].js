@@ -18,6 +18,7 @@ export default function Quizz() {
 
 	const router = useRouter();
 
+	useEffect(() => {
 		if (!router.query.id && quizzId == '') {
 			return;
 		}
