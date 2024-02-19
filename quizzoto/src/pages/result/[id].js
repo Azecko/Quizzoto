@@ -47,13 +47,12 @@ export default function Quizz() {
 				) : result ? (
 					<Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2}>
 						<Box gridColumn="span 12" display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2}>
-							<Box gridColumn="span 8">
+							<Box gridColumn="span 10">
 								<h1>{result.quizz.title}</h1>
 								<h2>{result.quizz.description}</h2>
 							</Box>
-							<Box gridColumn="span 4">
+							<Box gridColumn="span 2">
 								<h2>Score total : {result.score}</h2>
-								<h2>Résultats</h2>
 							</Box>
 						</Box>
 						<Box gridColumn="span 8">
