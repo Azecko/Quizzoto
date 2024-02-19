@@ -1,11 +1,12 @@
 const { MongoClient } = require('mongodb');
+require('dotenv').config();
 
 // Connection URL
-const url = 'mongodb://user:Aexie3OoQu2taiqu8angoo0aighaighohquaib0io6Ahz5quooyiech4ahngoosh@localhost:27017/quizzoto?directConnection=true';
+const url = `mongodb://${process.env.MONGO_INITDB_USER_USERNAME}:${process.env.MONGO_INITDB_USER_PASSWORD}@quizzoto_db:27017/${process.env.MONGO_INITDB_DATABASE}?directConnection=true`;
 const client = new MongoClient(url);
 
 // Database Name
-const dbName = 'quizzoto';
+const dbName = `${process.env.MONGO_INITDB_DATABASE}`;
 
 client.connect();
 console.log('Connected successfully to server');

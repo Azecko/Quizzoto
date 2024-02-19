@@ -156,7 +156,7 @@ db.quizzs.insert([
 ]);
 
 db.createUser({
-	user: 'user',
-	pwd: 'Aexie3OoQu2taiqu8angoo0aighaighohquaib0io6Ahz5quooyiech4ahngoosh',
-	roles: [{ role: 'readWrite', db: 'quizzoto' }],
+	user: process.env.MONGO_INITDB_USER_USERNAME,
+	pwd: process.env.MONGO_INITDB_USER_PASSWORD,
+	roles: [{ role: 'readWrite', db: process.env.MONGO_INITDB_DATABASE }],
 });

@@ -6,12 +6,11 @@ services:
         restart: always
         container_name: quizzotoDB
         environment:
-            MONGO_INITDB_ROOT_USERNAME: root
-            MONGO_INITDB_ROOT_PASSWORD: example
-            MONGO_INITDB_DATABASE: quizzoto
-        # networks:
-        #     - quizzoto_network
-        network_mode: host
+            MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME:-root}
+            MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD:-sup3rs3cr3t}
+            MONGO_INITDB_USER_USERNAME: ${MONGO_INITDB_USER_USERNAME:-user}
+            MONGO_INITDB_USER_PASSWORD: ${MONGO_INITDB_USER_PASSWORD:-an0th3rs3cr3t}
+            MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE:-quizzoto}
         ports:
             - 27017:27017
         volumes:
@@ -30,8 +29,3 @@ services:
               source: ./
               target: /srv/app
         tty: true
-        network_mode: host
-        # networks:
-        #     - quizzoto_network
-# networks:
-#     quizzoto_network:
