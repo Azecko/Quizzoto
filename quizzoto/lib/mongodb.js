@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
 
 // Connection URL
-const url = 'mongodb://localhost:27017';
+const url = 'mongodb://user:Aexie3OoQu2taiqu8angoo0aighaighohquaib0io6Ahz5quooyiech4ahngoosh@localhost:27017/quizzoto?directConnection=true';
 const client = new MongoClient(url);
 
 // Database Name
