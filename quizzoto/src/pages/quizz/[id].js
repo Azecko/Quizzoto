@@ -29,6 +29,7 @@ export default function Quizz() {
 		}
 
 		const getData = async () => {
+			const jsonData = await fetchQuizz(id, questionId);
 			setQuizz(jsonData);
 		};
 		getData();
