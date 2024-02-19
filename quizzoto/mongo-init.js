@@ -5,13 +5,45 @@ db.createCollection('quizzs');
 
 db.quizzs.insert([
 	{
+		quizzSlug: 'demo',
+		quizzTitle: 'Demo quizz',
+		quizzDescription: 'Quizz pour démontrer les titres de champs possibles.',
+		questions: [
+			{
+				questionTitle: 'Ce type de champ a une seule réponse possible. Il s’agit de :',
+				questionType: 'radios',
+				answers: ['Input', 'Select', 'Radio', 'Checkbox'],
+				correctAnswer: 'Radio',
+				pointsIfCorrect: 1,
+				minusPointsIfWrong: 0,
+			},
+			{
+				questionTitle: 'Ce type de champ a plusieurs réponses possibles. Il s’agit de :',
+				questionType: 'checkboxes',
+				answers: ['Input', 'Select', 'Radio', 'Checkbox'],
+				correctAnswer: 'Checkbox',
+				pointsIfCorrect: 1,
+				minusPointsIfWrong: 0,
+			},
+			{
+				questionTitle: 'Ce type de champ permet une réponse libre. Il s’agit de :',
+				questionType: 'textfield',
+				answers: ['Input', 'Select', 'Radio', 'Checkbox'],
+				correctAnswer: ['Input', 'Textfield'],
+				pointsIfCorrect: 1,
+				minusPointsIfWrong: 0,
+			},
+		],
+	},
+	{
+		quizzSlug: 'super-quizz',
 		quizzTitle: 'Super quizz',
 		quizzDescription: 'Ce super quizz pose des questions sur le super groupe ISAS-FSD.',
 		questions: [
 			{
 				questionTitle: 'Qui est le meilleur développeur React du monde ?',
 				questionType: 'radios',
-				answers: ['Azecko', 'JaavLex', 'Ponsfrilus', 'Dwesh163'],
+				answers: ['Azecko', 'JaavLex', 'ponsfrilus', 'Dwesh163'],
 				correctAnswer: 'Dwesh163',
 				pointsIfCorrect: 1,
 				minusPointsIfWrong: 1,
@@ -154,7 +186,8 @@ db.quizzs.insert([
 		],
 	},
 	{
-		quizzTitle: 'Super quizz',
+		quizzSlug: 'super-quizz-2',
+		quizzTitle: 'Super quizz 2',
 		quizzDescription: 'Ce super quizz pose des questions sur le super groupe ISAS-FSD.',
 		questions: [
 			{
