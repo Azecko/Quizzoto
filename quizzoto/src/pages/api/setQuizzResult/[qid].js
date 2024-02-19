@@ -31,6 +31,20 @@ export default async function handler(req, res) {
 
 	console.log(answers);
 
+	function arrayToLowerCase(array) {
+		return array.map((v) => v.toLowerCase());
+	}
+
+	function checkUserAnswersForCheckboxes(questionAnswers, userAnswers) {
+		console.log('checkUAFC', questionAnswers, userAnswers);
+		let questionPass = 0;
+		userAnswers.forEach((e, i) => {
+			if (arrayToLowerCase(questionAnswers).includes(e.toLowerCase())) {
+				questionPass++;
+			}
+		});
+		return !!(questionAnswers.length === questionPass);
+	}
 	quizz.questions.map((question, index) => {
 		index += 1;
 		if (answers[index.toString()] == undefined) {
@@ -78,27 +92,24 @@ export default async function handler(req, res) {
 				let sortedQuizzAnswers = question.correctAnswer.slice().sort();
 				let sortedUserAnswers = answers[index.toString()].slice().sort();
 
-				for (let i = 0; i < sortedQuizzAnswers.length; i++) {
-					if (JSON.stringify(sortedQuizzAnswers[i].toLowerCase()) !== JSON.stringify(sortedUserAnswers[i].toLowerCase())) {
-						score = score - question.minusPointsIfWrong;
-						return results.push({
-							questionTitle: question.questionTitle,
-							answeredCorrectly: false,
-							points: `-${question.minusPointsIfWrong}`,
-							userAnswer: answers[index.toString()],
-							correctAnswer: question.correctAnswer,
-						});
-					}
+				if (checkUserAnswersForCheckboxes(sortedQuizzAnswers, sortedUserAnswers)) {
+					results.push({
+						questionTitle: question.questionTitle,
+						answeredCorrectly: true,
+						points: `+${question.pointsIfCorrect}`,
+						userAnswer: answers[index.toString()],
+						correctAnswer: question.correctAnswer,
+					});
+				} else {
+					results.push({
+						questionTitle: question.questionTitle,
+						answeredCorrectly: false,
+						points: `-${question.minusPointsIfWrong}`,
+						userAnswer: answers[index.toString()],
+						correctAnswer: question.correctAnswer,
+					});
 				}
 
-				score = score + question.pointsIfCorrect;
-				results.push({
-					questionTitle: question.questionTitle,
-					answeredCorrectly: true,
-					points: `+${question.pointsIfCorrect}`,
-					userAnswer: answers[index.toString()],
-					correctAnswer: question.correctAnswer,
-				});
 				break;
 			case 'textfield':
 				score = question.correctAnswer.includes(answers[index.toString()].toLowerCase()) ? score + question.pointsIfCorrect : score - question.minusPointsIfWrong;

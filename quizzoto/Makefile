@@ -30,9 +30,9 @@ start-fresh: down
 	sudo rm -rf data/*
 	$(MAKE) up logs
 
-get-quizz-url:
-	@QUIZZID=$$(docker exec -it quizzotoDB bash -c 'mongosh "mongodb://$${MONGO_INITDB_USER_USERNAME}:$${MONGO_INITDB_USER_PASSWORD}@quizzoto_db:27017/$${MONGO_INITDB_DATABASE}" --quiet --eval "db.getCollection(\"quizzs\").find({}, {\"_id\":1})"' | grep -oE '[0-9a-f]{24}' | tr -d '[:space:]'); \
-	echo http://localhost:3000/quizz/$$QUIZZID
+open-quizz:
+	@QUIZZID=$$(docker exec -it quizzotoDB bash -c 'mongosh "mongodb://$${MONGO_INITDB_USER_USERNAME}:$${MONGO_INITDB_USER_PASSWORD}@quizzoto_db:27017/$${MONGO_INITDB_DATABASE}" --quiet --eval "db.getCollection(\"quizzs\").findOne({}, {\"_id\":1})"' | grep -oE '[0-9a-f]{24}' | tr -d '[:space:]'); \
+	firefox http://localhost:3000/quizz/$$QUIZZID
 
 test-e2e:
 	npx playwright test
