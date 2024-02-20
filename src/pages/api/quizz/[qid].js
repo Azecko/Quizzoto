@@ -2,51 +2,48 @@ import db from '../../../../lib/mongodb';
 
 var mongodb = require('mongodb');
 
+async function getQuizzIdFromSlug(quizzSlug) {
+	let id = await db.collection('quizzs').findOne(
+		{ quizzSlug: quizzSlug },
+		{
+			projection: {
+				_id: 1,
+			},
+		}
+	);
+	return id._id.toString();
+}
+
 export default async function handler(req, res) {
-	if (!mongodb.ObjectId.isValid(req.query.qid) && req.query.qid !== 'demo') {
+	let quizz = null;
+	let quizzId = null;
+
+	if (mongodb.ObjectId.isValid(req.query.qid)) {
+		quizzId = req.query.qid;
+	} else if (getQuizzIdFromSlug(req.query.qid) != null) {
+		quizzId = await getQuizzIdFromSlug(req.query.qid);
+	} else {
 		return res.status(422).json({ statusCode: 422, message: `Please provide a valid quizz's object id.` });
 	}
-	
-	console.log(req.query.qid);
- 	let quizz = null
-	// Special case for the demo quizz
-	// TODO: at some point, this should be dynamically done
-	if (req.query.qid === 'demo') {
-		quizz = await db.collection('quizzs').findOne(
-			{ quizzSlug: 'demo' },
-			{
-				projection: {
-					quizzTitle: 1,
-					quizzDescription: 1,
-					quizzImg: 1,
-					quizzInfo: 1,
-					'questions.questionTitle': 1,
-					'questions.questionType': 1,
-					'questions.answers': 1,
-				},
-			}
-		);
-	} else {
-		quizz = await db.collection('quizzs').findOne(
-			{ _id: new mongodb.ObjectId(req.query.qid) },
-			{
-				projection: {
-					quizzTitle: 1,
-					quizzDescription: 1,
-					quizzImg: 1,
-					quizzInfo: 1,
-					'questions.questionTitle': 1,
-					'questions.questionType': 1,
-					'questions.answers': 1,
-				},
-			}
-		);
-	}
+
+	quizz = await db.collection('quizzs').findOne(
+		{ _id: new mongodb.ObjectId(`${quizzId}`) },
+		{
+			projection: {
+				quizzTitle: 1,
+				quizzDescription: 1,
+				quizzImg: 1,
+				quizzInfo: 1,
+				'questions.questionTitle': 1,
+				'questions.questionType': 1,
+				'questions.answers': 1,
+			},
+		}
+	);
 
 	if (quizz == null) {
 		return res.status(422).json({ statusCode: 422, message: `Please provide a valid quizz's object id.` });
 	} else {
-		console.log(req.query);
 		if (req.query.q !== 'timeline') {
 			if (req.query.q == NaN || !req.query.q) {
 				req.query.q = 1;
