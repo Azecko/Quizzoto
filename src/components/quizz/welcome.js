@@ -126,7 +126,7 @@ export default function Welcome({ quizz }) {
 						</Box>
 					</>
 				) : (
-					<Box sx={{ display: 'flex' }}>
+					<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', verticalAlign: 'center', height: '100%' }}>
 						<CircularProgress />
 					</Box>
 				)}
