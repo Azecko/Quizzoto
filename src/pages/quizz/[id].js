@@ -35,6 +35,32 @@ export default function Quizz() {
 		paddingLeft: '2.5rem',
 	};
 
+	const BtnStyle = {
+		appearance: 'button',
+		backfaceVisibility: 'hidden',
+		backgroundColor: '#405cf5',
+		borderRadius: '30px',
+		borderWidth: '0',
+		boxShadow: 'rgba(50, 50, 93, .1) 0 0 0 1px inset,rgba(50, 50, 93, .1) 0 2px 5px 0,rgba(0, 0, 0, .07) 0 1px 1px 0',
+		boxSizing: 'border-box',
+		color: '#fff',
+		cursor: 'pointer',
+		fontSize: '1rem',
+		height: '65px',
+		lineHeight: '1',
+		margin: '110px 0 0',
+		outline: 'none',
+		overflow: 'hidden',
+		position: 'relative',
+		right: '0',
+		textAlign: 'center',
+		textTransform: 'none',
+		transform: 'translateZ(0)',
+		transition: 'all .2s,box-shadow .08s ease-in',
+		userSelect: 'none',
+		width: '20%',
+	};
+
 	useEffect(() => {
 		if (!quizz) {
 			return;
@@ -119,7 +145,7 @@ export default function Quizz() {
 					<Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2}>
 						<Box gridColumn="span 2"></Box>
 						<Box gridColumn="span 10" style={BoxStyle}>
-							<Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2}>
+							<Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2} style={{ height: '100%' }}>
 								<Box gridColumn="span 12">
 									<h1>{quizz.quizzTitle}</h1>
 								</Box>
@@ -129,7 +155,7 @@ export default function Quizz() {
 											<h3>{quizz.questions.questionTitle}</h3>
 											<Question question={quizz.questions} register={register} questionId={questionId} />
 										</div>
-										<Button type="submit" variant="contained">
+										<Button type="submit" variant="contained" style={BtnStyle}>
 											Question suivante
 										</Button>
 									</form>
