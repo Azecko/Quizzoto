@@ -8,6 +8,13 @@ db.quizzs.insert([
 		quizzSlug: 'demo',
 		quizzTitle: 'Demo quizz',
 		quizzDescription: 'Quizz pour démontrer les titres de champs possibles.',
+		quizzImg: 'https://t4.ftcdn.net/jpg/01/43/23/83/240_F_143238306_lh0ap42wgot36y44WybfQpvsJB5A1CHc.jpg',
+		quizzInfo: {
+			Date: '20/02/2024',
+			TimeLimit: '3M',
+			Attempts: '1',
+			Points: '300',
+		},
 		questions: [
 			{
 				questionTitle: 'Ce type de champ a une seule réponse possible. Il s’agit de :',
@@ -39,6 +46,13 @@ db.quizzs.insert([
 		quizzSlug: 'super-quizz',
 		quizzTitle: 'Super quizz',
 		quizzDescription: 'Ce super quizz pose des questions sur le super groupe ISAS-FSD.',
+		quizzImg: 'https://b1770371.smushcdn.com/1770371/wp-content/uploads/2018/12/moser_EPFL_1.jpg?lossy=1&strip=1&webp=1',
+		quizzInfo: {
+			Date: '12/02/2024',
+			TimeLimit: '10M',
+			Attempts: '1',
+			Points: '1500',
+		},
 		questions: [
 			{
 				questionTitle: 'Qui est le meilleur développeur React du monde ?',
