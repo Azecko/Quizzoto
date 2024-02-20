@@ -13,6 +13,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import CircularProgress from '@mui/material/CircularProgress';
 import { PieChart } from '@mui/x-charts/PieChart';
 
 export default function Quizz() {
@@ -88,7 +89,9 @@ export default function Quizz() {
 						</Box>
 					</Box>
 				) : (
-					<h2>Chargement...</h2>
+					<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', verticalAlign: 'center', height: '100%' }}>
+						<CircularProgress />
+					</Box>
 				)}
 			</main>
 		</>
