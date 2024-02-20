@@ -22,6 +22,19 @@ export default function Quizz() {
 
 	const router = useRouter();
 
+	const BoxStyle = {
+		borderRadius: '30px',
+		fontWeight: '400',
+		fontSize: '1.2rem',
+		boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
+		padding: '2rem',
+		height: '75vh',
+		width: '94%',
+		color: '#696f79',
+		paddingTop: '0px',
+		paddingLeft: '2.5rem',
+	};
+
 	useEffect(() => {
 		if (!quizz) {
 			return;
@@ -104,23 +117,27 @@ export default function Quizz() {
 					<Welcome quizz={quizz} />
 				) : (
 					<Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2}>
-						<Box gridColumn="span 12">
-							<h1>{quizz.quizzTitle}</h1>
-							<h2>{quizz.quizzDescription}</h2>
-						</Box>
-						<Box gridColumn="span 8">
-							<form onSubmit={handleSubmit(onSubmit)}>
-								<div>
-									<h3>{quizz.questions.questionTitle}</h3>
-									<Question question={quizz.questions} register={register} questionId={questionId} />
-								</div>
-								<Button type="submit" variant="contained">
-									Question suivante
-								</Button>
-							</form>
-						</Box>
-						<Box gridColumn="span 4">
-							<QuizzTimeline quizzId={router.query.id} questionId={questionId} userAnswer={UserAnswer} />
+						<Box gridColumn="span 2"></Box>
+						<Box gridColumn="span 10" style={BoxStyle}>
+							<Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2}>
+								<Box gridColumn="span 12">
+									<h1>{quizz.quizzTitle}</h1>
+								</Box>
+								<Box gridColumn="span 8">
+									<form onSubmit={handleSubmit(onSubmit)}>
+										<div>
+											<h3>{quizz.questions.questionTitle}</h3>
+											<Question question={quizz.questions} register={register} questionId={questionId} />
+										</div>
+										<Button type="submit" variant="contained">
+											Question suivante
+										</Button>
+									</form>
+								</Box>
+								<Box gridColumn="span 4" style={{ height: '50%', overflow: 'scroll' }}>
+									<QuizzTimeline quizzId={router.query.id} questionId={questionId} userAnswer={UserAnswer} />
+								</Box>
+							</Box>
 						</Box>
 					</Box>
 				)}
