@@ -15,7 +15,6 @@ async function getQuizzIdFromSlug(quizzSlug) {
 }
 
 export default async function handler(req, res) {
-	let quizz = null;
 	let quizzId = null;
 
 	if (mongodb.ObjectId.isValid(req.query.qid)) {
@@ -26,7 +25,7 @@ export default async function handler(req, res) {
 		return res.status(422).json({ statusCode: 422, message: `Please provide a valid quizz's object id.` });
 	}
 
-	quizz = await db.collection('quizzs').findOne(
+	const quizz = await db.collection('quizzs').findOne(
 		{ _id: new mongodb.ObjectId(`${quizzId}`) },
 		{
 			projection: {
