@@ -8,6 +8,7 @@ import setQuizzResult from '../../../lib/setQuizzResult';
 import Question from '@/components/question';
 import QuizzTimeline from '@/components/quizzTimeline';
 import Box from '@mui/material/Box';
+import Welcome from '@/components/quizz/welcome';
 
 import Header from '../../components/header/header';
 
@@ -16,9 +17,17 @@ export default function Quizz() {
 	const [UserAnswer, setUserAnswer] = useState({});
 	const [quizzId, setQuizzId] = useState('');
 
-	const [questionId, setQuestionId] = useState(1);
+	const [questionId, setQuestionId] = useState(0);
+	const [quizzTitle, setQuizzTitle] = useState('');
 
 	const router = useRouter();
+
+	useEffect(() => {
+		if (!quizz) {
+			return;
+		}
+		setQuizzTitle(quizz.quizzTitle);
+	}, [quizz]);
 
 	useEffect(() => {
 		if (!router.query.id && quizzId == '') {
@@ -40,17 +49,17 @@ export default function Quizz() {
 
 	useEffect(() => {
 		if (router.query.q == undefined) {
-			setQuestionId(parseInt(1));
+			return;
 		} else {
 			setQuestionId(parseInt(router.query.q));
 		}
 	}, [router.query.q]);
 
-	useEffect(() => {
-		const url = new URL(window.location.href);
-		setQuizzId(url.pathname.split('/')[2]);
-		const SearchParams = new URLSearchParams(url.search);
-	}, []);
+	// useEffect(() => {
+	// 	const url = new URL(window.location.href);
+	// 	setQuizzId(url.pathname.split('/')[2]);
+	// 	const SearchParams = new URLSearchParams(url.search);
+	// }, []);
 
 	const { register, handleSubmit } = useForm();
 
@@ -73,6 +82,7 @@ export default function Quizz() {
 		}
 	};
 
+	console.log(questionId);
 	return (
 		<>
 			<Head>
@@ -82,12 +92,17 @@ export default function Quizz() {
 				<link rel="icon" href="/favicon.ico" />
 				<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
 				<link rel="stylesheet" href="/quizz.css" />
+				<link rel="preconnect" href="https://fonts.googleapis.com" />
+				<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+				<link href="https://fonts.googleapis.com/css2?family=Anta&family=Bebas+Neue&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet" />
 			</Head>
 			<main>
 				<Header quizzTitle={quizzTitle} />
 				{quizz?.statusCode ? (
 					<p>Merci de fournir un id de quizz correct dans l'URL.</p>
-				) : quizz ? (
+				) : questionId == 0 ? (
+					<Welcome quizz={quizz} />
+				) : (
 					<Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2}>
 						<Box gridColumn="span 12">
 							<h1>{quizz.quizzTitle}</h1>
@@ -108,8 +123,6 @@ export default function Quizz() {
 							<QuizzTimeline quizzId={router.query.id} questionId={questionId} userAnswer={UserAnswer} />
 						</Box>
 					</Box>
-				) : (
-					<h2>Chargement...</h2>
 				)}
 			</main>
 		</>
