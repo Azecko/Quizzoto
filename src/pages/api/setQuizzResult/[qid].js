@@ -62,10 +62,10 @@ export default async function handler(req, res) {
 	}
 	quizz.questions.map((question, index) => {
 		index += 1;
-		if (answers[index.toString()] == undefined) {
+		if (answers[index.toString()] == null) {
 			return results.push({
 				questionTitle: question.questionTitle,
-				answeredCorrectly: false,
+				answeredCorrectly: null,
 				points: `-${question.minusPointsIfWrong}`,
 				userAnswer: 'empty',
 				correctAnswer: question.correctAnswer,
