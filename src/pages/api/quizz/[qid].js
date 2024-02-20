@@ -18,6 +18,8 @@ export default async function handler(req, res) {
 				projection: {
 					quizzTitle: 1,
 					quizzDescription: 1,
+					quizzImg: 1,
+					quizzInfo: 1,
 					'questions.questionTitle': 1,
 					'questions.questionType': 1,
 					'questions.answers': 1,
@@ -31,6 +33,8 @@ export default async function handler(req, res) {
 				projection: {
 					quizzTitle: 1,
 					quizzDescription: 1,
+					quizzImg: 1,
+					quizzInfo: 1,
 					'questions.questionTitle': 1,
 					'questions.questionType': 1,
 					'questions.answers': 1,
