@@ -28,7 +28,7 @@ db.quizzs.insert([
 				questionTitle: 'Ce type de champ a plusieurs réponses possibles. Il s’agit de :',
 				questionType: 'checkboxes',
 				answers: ['Input', 'Select', 'Radio', 'Checkbox'],
-				correctAnswer: 'Checkbox',
+				correctAnswer: ['Checkbox'],
 				pointsIfCorrect: 1,
 				minusPointsIfWrong: 0,
 			},
