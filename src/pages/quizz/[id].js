@@ -9,6 +9,8 @@ import Question from '@/components/question';
 import QuizzTimeline from '@/components/quizzTimeline';
 import Box from '@mui/material/Box';
 
+import Header from '../../components/header/header';
+
 export default function Quizz() {
 	const [quizz, setQuizz] = useState();
 	const [UserAnswer, setUserAnswer] = useState({});
@@ -82,6 +84,7 @@ export default function Quizz() {
 				<link rel="stylesheet" href="/quizz.css" />
 			</Head>
 			<main>
+				<Header quizzTitle={quizzTitle} />
 				{quizz?.statusCode ? (
 					<p>Merci de fournir un id de quizz correct dans l'URL.</p>
 				) : quizz ? (
