@@ -16,6 +16,9 @@ import Paper from '@mui/material/Paper';
 import CircularProgress from '@mui/material/CircularProgress';
 import { PieChart } from '@mui/x-charts/PieChart';
 
+import Header from '../../components/header/header';
+
+
 export default function Quizz() {
 	const [result, setResult] = useState();
 
@@ -44,6 +47,7 @@ export default function Quizz() {
 				<link rel="stylesheet" href="/result.css" />
 			</Head>
 			<main>
+				<Header />
 				{result?.statusCode ? (
 					<p>Merci de fournir un id de résultat correct dans l'URL.</p>
 				) : result ? (
