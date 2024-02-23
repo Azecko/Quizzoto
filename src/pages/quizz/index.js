@@ -1,6 +1,4 @@
-import { FormControl, RadioGroup, FormControlLabel, Radio, Button } from '@mui/material';
 import Head from 'next/head';
-import { set, useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import fetchQuizzs from '../../../lib/fetchQuizzs';
@@ -12,6 +10,7 @@ import ImageListItemBar from '@mui/material/ImageListItemBar';
 import ListSubheader from '@mui/material/ListSubheader';
 import IconButton from '@mui/material/IconButton';
 import InfoIcon from '@mui/icons-material/Info';
+import Avatar from 'boring-avatars';
 
 import Header from '../../components/header/header';
 
@@ -65,21 +64,12 @@ export default function Quizz() {
 					<Box gridColumn="span 10" style={BoxStyle}>
 						<h1>Discover the quizzes</h1>
 						{!isLoading ? (
-							<ImageList sx={{ width: '100%', height: 'calc(100vh - 380px)', overflow: 'scroll' }} cols={5} rowHeight={154}>
+							<ImageList sx={{ width: '100%', height: 'calc(100vh - 450px)', overflow: 'scroll' }} cols={5} rowHeight={154}>
 								{quizzs.map((quizz, index) => (
 									<a key={index} href={`/quizz/${quizz.quizzSlug}`}>
 										<ImageListItem style={{ cursor: 'pointer' }}>
-											<img src={quizz.quizzImg} alt="Quizz background" style={{ width: '100%', height: '100%', borderRadius: '15px', objectFit: 'cover' }} />
-											<ImageListItemBar
-												style={{ backgroundColor: 'rgba(0,0,0,0.1)', borderRadius: '0px 0px 15px 15px' }}
-												title={<h3 style={{ margin: '0px', marginBottom: '5px' }}>{quizz.quizzTitle}</h3>}
-												subtitle={quizz.quizzDescription}
-												actionIcon={
-													<IconButton sx={{ color: 'rgba(255, 255, 255, 0.54)' }} aria-label={`info about ${quizz.quizzTitle}`}>
-														<InfoIcon />
-													</IconButton>
-												}
-											/>
+											{quizz.quizzImg ? <img src={quizz.quizzImg} alt="Quizz background" style={{ width: '100%', height: '100%', borderRadius: '15px', objectFit: 'cover' }} /> : <Avatar size={50} name={quizz.quizzTitle} square="true" variant="marble" colors={['#FF9B8F', '#EF7689', '#9E6A90', '#766788', '#71556B']} />}
+											<ImageListItemBar style={{ backgroundColor: 'rgba(0,0,0,0.1)', borderRadius: '0px 0px 15px 15px' }} title={<h3 style={{ margin: '0px', marginBottom: '5px' }}>{quizz.quizzTitle}</h3>} subtitle={quizz.quizzDescription} />
 										</ImageListItem>
 									</a>
 								))}
