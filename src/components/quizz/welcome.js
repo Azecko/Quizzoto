@@ -56,6 +56,32 @@ const BtnStyle = {
 	width: '100%',
 };
 
+const BtnStyleSecondary = {
+	appearance: 'button',
+	backfaceVisibility: 'hidden',
+	backgroundColor: 'rgb(95, 95, 95)',
+	borderRadius: '30px',
+	borderWidth: '0',
+	boxShadow: 'rgba(50, 50, 93, .1) 0 0 0 1px inset,rgba(50, 50, 93, .1) 0 2px 5px 0,rgba(0, 0, 0, .07) 0 1px 1px 0',
+	boxSizing: 'border-box',
+	color: '#fff',
+	cursor: 'pointer',
+	fontSize: '105%',
+	height: '65px',
+	lineHeight: '1.15',
+	margin: '110px 0 0',
+	outline: 'none',
+	overflow: 'hidden',
+	padding: '20px 65px',
+	position: 'relative',
+	textAlign: 'center',
+	textTransform: 'none',
+	transform: 'translateZ(0)',
+	transition: 'all .2s,box-shadow .08s ease-in',
+	userSelect: 'none',
+	width: '100%',
+};
+
 const QuizzInfo = ({ quizzInfo }) => {
 	console.log(quizzInfo);
 	return (
@@ -112,16 +138,21 @@ export default function Welcome({ quizz }) {
 								</Box>
 								<h3> Instructions</h3>
 								<p>{quizz.quizzDescription}</p>
-								<Box style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', height: '40%' }}>
+								<Box style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', height: '40%', gap: '10px' }}>
 									<Link href={{ pathname: router.pathname, query: { ...router.query, q: '1' } }} passHref style={{ maxWidth: '50%', alignSelf: 'flex-end' }}>
 										<Button type="button" onClick={handleClick} variant="contained" style={BtnStyle}>
 											Start
 										</Button>
 									</Link>
+									<Link href={{ pathname: router.pathname, query: { ...router.query, q: '1' } }} passHref style={{ maxWidth: '50%', alignSelf: 'flex-end' }}>
+										<Button type="button" onClick={handleClick} variant="contained" style={BtnStyleSecondary}>
+											Start a session
+										</Button>
+									</Link>
 								</Box>
 							</Box>
 							<Box gridColumn="span 4">
-								<Rank quizzId={'def'} />
+								<Rank quizzId={''} />
 							</Box>
 						</Box>
 					</>
