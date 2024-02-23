@@ -146,7 +146,7 @@ export default function Quizz() {
 						<Box gridColumn="span 2"></Box>
 						<Box gridColumn="span 10" style={BoxStyle}>
 							<Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2} style={{ height: '100%' }}>
-								<Box gridColumn="span 12">
+								<Box gridColumn="span 12" style={{ height: '100px' }}>
 									<h1>{quizz.quizzTitle}</h1>
 								</Box>
 								<Box gridColumn="span 8">
