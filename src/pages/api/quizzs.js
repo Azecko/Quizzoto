@@ -11,6 +11,7 @@ export default async function handler(req, res) {
 					quizzDescription: 1,
 					quizzImg: 1,
 					quizzInfo: 1,
+					quizzSlug: 1,
 				},
 			}
 		)

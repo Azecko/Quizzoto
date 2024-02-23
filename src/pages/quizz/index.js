@@ -67,19 +67,21 @@ export default function Quizz() {
 						{!isLoading ? (
 							<ImageList sx={{ width: '100%', height: 'calc(100vh - 380px)', overflow: 'scroll' }} cols={5} rowHeight={154}>
 								{quizzs.map((quizz, index) => (
-									<ImageListItem style={{ cursor: 'pointer' }}>
-										<img src={quizz.quizzImg} alt="Quizz background" style={{ width: '100%', height: '100%', borderRadius: '15px', objectFit: 'cover' }} />
-										<ImageListItemBar
-											style={{ backgroundColor: 'rgba(0,0,0,0.1)', borderRadius: '0px 0px 15px 15px' }}
-											title={<h3 style={{ margin: '0px', marginBottom: '5px' }}>{quizz.quizzTitle}</h3>}
-											subtitle={quizz.quizzDescription}
-											actionIcon={
-												<IconButton sx={{ color: 'rgba(255, 255, 255, 0.54)' }} aria-label={`info about ${quizz.quizzTitle}`}>
-													<InfoIcon />
-												</IconButton>
-											}
-										/>
-									</ImageListItem>
+									<a key={index} href={`/quizz/${quizz.quizzSlug}`}>
+										<ImageListItem style={{ cursor: 'pointer' }}>
+											<img src={quizz.quizzImg} alt="Quizz background" style={{ width: '100%', height: '100%', borderRadius: '15px', objectFit: 'cover' }} />
+											<ImageListItemBar
+												style={{ backgroundColor: 'rgba(0,0,0,0.1)', borderRadius: '0px 0px 15px 15px' }}
+												title={<h3 style={{ margin: '0px', marginBottom: '5px' }}>{quizz.quizzTitle}</h3>}
+												subtitle={quizz.quizzDescription}
+												actionIcon={
+													<IconButton sx={{ color: 'rgba(255, 255, 255, 0.54)' }} aria-label={`info about ${quizz.quizzTitle}`}>
+														<InfoIcon />
+													</IconButton>
+												}
+											/>
+										</ImageListItem>
+									</a>
 								))}
 							</ImageList>
 						) : (
