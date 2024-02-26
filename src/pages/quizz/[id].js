@@ -82,6 +82,7 @@ export default function Quizz() {
 		const getData = async () => {
 			const jsonData = await fetchQuizz(id, questionId);
 			setQuizz(jsonData);
+			console.log(jsonData);
 		};
 		getData();
 	}, [questionId, router.query.id, quizzId]);
@@ -103,7 +104,7 @@ export default function Quizz() {
 	const { register, handleSubmit } = useForm();
 
 	async function getResult(UserAnswer) {
-		const result = await setQuizzResult(router.query.id, UserAnswer);
+		const result = await setQuizzResult(router.query.id, UserAnswer, router.query.s);
 		await router.push({
 			pathname: `/result/${result._id}`,
 		});
@@ -117,11 +118,10 @@ export default function Quizz() {
 		} else {
 			const nextQuestionId = questionId + 1;
 			setQuestionId(nextQuestionId);
-			router.push({ pathname: `/quizz/${router.query.id}`, query: { q: nextQuestionId } }, undefined, { shallow: true });
+			router.push({ pathname: `/quizz/${router.query.id}`, query: { q: nextQuestionId, s: router.query.s } }, undefined, { shallow: true });
 		}
 	};
 
-	console.log(questionId);
 	return (
 		<>
 			<Head>
