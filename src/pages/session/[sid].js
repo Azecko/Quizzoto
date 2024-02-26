@@ -111,7 +111,9 @@ export default function Session() {
 															{e.score}
 														</TableCell>
 														<TableCell component="th" scope="row">
-															<a href={`/result/${e._id}`}>{e._id}</a>
+															<a target="_blank" href={`/result/${e._id}`}>
+																{e._id}
+															</a>
 														</TableCell>
 													</TableRow>
 												))}
