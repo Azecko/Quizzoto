@@ -144,6 +144,7 @@ export default async function handler(req, res) {
 			id: quizz._id,
 			title: quizz.quizzTitle,
 			description: quizz.quizzDescription,
+			quizzSlug: quizz.quizzSlug,
 		},
 		score,
 		results,
