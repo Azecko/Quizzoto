@@ -20,6 +20,7 @@ export default async function handler(req, res) {
 	}
 
 	let quizzId = null;
+	let sessionId = req.query.s;
 
 	if (mongodb.ObjectId.isValid(req.query.qid)) {
 		quizzId = req.query.qid;
@@ -148,6 +149,7 @@ export default async function handler(req, res) {
 		},
 		score,
 		results,
+		sessionId,
 	};
 
 	db.collection('results').insertOne(returnObject);
