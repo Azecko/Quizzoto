@@ -14,7 +14,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import CircularProgress from '@mui/material/CircularProgress';
-import { PieChart } from '@mui/x-charts/PieChart';
+import { useQRCode } from 'next-qrcode';
 
 import Header from '../../components/header/header';
 import fetchSession from '../../../lib/fetchSession';
@@ -31,6 +31,26 @@ const BoxStyle = {
 	paddingTop: '0px',
 	paddingLeft: '2.5rem',
 };
+
+function QRCode({ url }) {
+	const { Canvas } = useQRCode();
+
+	return (
+		<Canvas
+			text={url}
+			options={{
+				errorCorrectionLevel: 'M',
+				margin: 3,
+				scale: 4,
+				width: 200,
+				color: {
+					dark: '#000',
+					light: '#fff',
+				},
+			}}
+		/>
+	);
+}
 
 export default function Session() {
 	const [result, setResult] = useState();
@@ -70,11 +90,12 @@ export default function Session() {
 						<Box gridColumn="span 10" style={BoxStyle}>
 							<Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2}>
 								<Box gridColumn="span 12" display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2}>
-									<Box gridColumn="span 8">
+									<Box gridColumn="span 6">
 										<h1>{result[0].quizz.title}</h1>
 									</Box>
-									<Box gridColumn="span 4">
-										<a target="_blank" href={`${new URL(window.location.href).origin}/quizz/${result[0].quizz.quizzSlug}?s=${result[0].quizz.id}&q=1`}>{`${new URL(window.location.href).origin}/quizz/${result[0].quizz.title}?s=${result[0].quizz.id}&q=1`}</a>
+									<Box gridColumn="span 6" style={{ display: ' flex' }}>
+										<a target="_blank" href={`${new URL(window.location.href).origin}/quizz/${result[0].quizz.quizzSlug}?s=${result[0].sessionId}&q=1`}>{`${new URL(window.location.href).origin}/quizz/${result[0].quizz.quizzSlug}?s=${result[0].sessionId}&q=1`}</a>
+										<QRCode url={`${new URL(window.location.href).origin}/quizz/${result[0].quizz.quizzSlug}?s=${result[0].sessionId}&q=1`} />
 									</Box>
 								</Box>
 
