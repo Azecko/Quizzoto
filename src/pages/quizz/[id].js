@@ -137,7 +137,7 @@ export default function Quizz() {
 			</Head>
 			<main>
 				<Header quizzTitle={quizzTitle} />
-				{quizz?.statusCode ? (
+				{quizz?.statusCode != 200 ? (
 					<p>Merci de fournir un id de quizz correct dans l'URL.</p>
 				) : questionId == 0 ? (
 					<Welcome quizz={quizz} />

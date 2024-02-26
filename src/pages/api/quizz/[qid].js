@@ -56,5 +56,7 @@ export default async function handler(req, res) {
 		}
 	}
 
+	quizz.statusCode = 200;
+
 	return res.status(200).send(quizz);
 }
