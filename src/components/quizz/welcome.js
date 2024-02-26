@@ -80,6 +80,8 @@ const BtnStyleSecondary = {
 	transition: 'all .2s,box-shadow .08s ease-in',
 	userSelect: 'none',
 	width: '100%',
+	maxWidth: '30%',
+	alignSelf: 'flex-end',
 };
 
 const QuizzInfo = ({ quizzInfo }) => {
@@ -113,8 +115,33 @@ export default function Welcome({ quizz }) {
 			query: query,
 		});
 	};
+	const handleClickSession = () => {
+		const quizzId = router.query.id;
 
-	console.log(quizz);
+		console.log(`/api/session?s=${quizzId}`);
+		fetch(`/api/session?s=${quizzId}`)
+			.then((response) => {
+				if (response.ok) {
+					return response.json();
+				} else {
+					throw new Error('Failed to start session');
+				}
+			})
+			.then((data) => {
+				console.log('response', data);
+				const query = { ...router.query };
+				query.s = data._id;
+				query.q = '1';
+				router.push({
+					pathname: router.pathname,
+					query: query,
+				});
+			})
+			.catch((error) => {
+				console.error('Error starting session:', error);
+			});
+	};
+
 	return (
 		<Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2}>
 			<Box gridColumn="span 2"></Box>
@@ -144,11 +171,15 @@ export default function Welcome({ quizz }) {
 											Start
 										</Button>
 									</Link>
-									<Link href={{ pathname: router.pathname, query: { ...router.query, q: '1' } }} passHref style={{ maxWidth: '50%', alignSelf: 'flex-end' }}>
+									<Button type="button" onClick={handleClickSession} variant="contained" style={BtnStyleSecondary}>
+										Start a session
+									</Button>
+
+									{/* <Link href={{ pathname: router.pathname, query: { ...router.query, q: '1' } }} passHref style={{  }}>
 										<Button type="button" onClick={handleClick} variant="contained" style={BtnStyleSecondary}>
 											Start a session
 										</Button>
-									</Link>
+									</Link> */}
 								</Box>
 							</Box>
 							<Box gridColumn="span 4">
