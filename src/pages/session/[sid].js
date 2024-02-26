@@ -1,10 +1,6 @@
-import { FormControl, RadioGroup, FormControlLabel, Radio, Button } from '@mui/material';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import fetchResult from '../../../lib/fetchResult';
-import Result from '@/components/result';
-import QuizzTimeline from '@/components/quizzTimeline';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
