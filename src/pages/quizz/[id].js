@@ -183,6 +183,9 @@ export default function Quizz() {
 						<Box gridColumn="span 10" className="box">
 							<Box style={{ display: 'flex', alignItems: 'center', textAlign: 'center', justifyContent: 'space-between' }}>
 								<h1>{quizz.quizzTitle}</h1>
+								<h4>
+									{questionId}/{quizz['questionsNumber']}
+								</h4>
 							</Box>
 							<Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2} style={{ height: '100%' }}>
 								<Box gridColumn="span 8">
