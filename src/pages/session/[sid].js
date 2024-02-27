@@ -40,7 +40,7 @@ function QRCode({ url }) {
 				scale: 4,
 				width: 200,
 				color: {
-					dark: '#000',
+					dark: '#696f79',
 					light: '#fff',
 				},
 			}}
