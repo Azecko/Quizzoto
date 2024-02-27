@@ -18,6 +18,13 @@ db.quizzs.insert([
 		},
 		questions: [
 			{
+				questionTitle: 'Quel est votre nom ?',
+				questionType: 'textfield',
+				correctAnswer: ['javascript', 'js'],
+				pointsIfCorrect: 2,
+				minusPointsIfWrong: 1,
+			},
+			{
 				questionTitle: 'Ce type de champ a une seule réponse possible. Il s’agit de :',
 				questionType: 'radios',
 				answers: ['Input', 'Select', 'Radio', 'Checkbox'],

@@ -49,7 +49,7 @@ function QRCode({ url }) {
 }
 
 export default function Session() {
-	const [result, setResult] = useState();
+	const [quizzs, setResult] = useState();
 
 	const router = useRouter();
 
@@ -61,7 +61,6 @@ export default function Session() {
 			const jsonData = await fetchSession(router.query.sid);
 			console.log('jsonData', jsonData);
 			setResult(jsonData);
-			console.log(jsonData[0].quizz.quizzSlug);
 		};
 		getData();
 	}, [router.query.sid]);
@@ -78,20 +77,20 @@ export default function Session() {
 			</Head>
 			<main>
 				<Header />
-				{result?.statusCode ? (
+				{quizzs?.statusCode ? (
 					<p>Merci de fournir un id de session correct dans l'URL.</p>
-				) : result ? (
+				) : quizzs ? (
 					<Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2}>
 						<Box gridColumn="span 2"></Box>
 						<Box gridColumn="span 10" style={BoxStyle}>
 							<Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2}>
 								<Box gridColumn="span 12" display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2}>
 									<Box gridColumn="span 6">
-										<h1>{result[0].quizz.title}</h1>
+										<h1>{quizzs.quizzTitle}</h1>
 									</Box>
 									<Box gridColumn="span 6" style={{ display: ' flex' }}>
-										<a target="_blank" href={`${new URL(window.location.href).origin}/quizz/${result[0].quizz.quizzSlug}?s=${result[0].sessionId}&q=1`}>{`${new URL(window.location.href).origin}/quizz/${result[0].quizz.quizzSlug}?s=${result[0].sessionId}&q=1`}</a>
-										<QRCode url={`${new URL(window.location.href).origin}/quizz/${result[0].quizz.quizzSlug}?s=${result[0].sessionId}&q=1`} />
+										<a target="_blank" href={`${new URL(window.location.href).origin}/quizz/${quizzs.quizzSlug}?s=${quizzs.sessionId}&q=1`}>{`${new URL(window.location.href).origin}/quizz/${quizzs.quizzSlug}?s=${quizzs.sessionId}&q=1`}</a>
+										<QRCode url={`${new URL(window.location.href).origin}/quizz/${quizzs.quizzSlug}?s=${quizzs.sessionId}&q=1`} />
 									</Box>
 								</Box>
 
@@ -100,13 +99,17 @@ export default function Session() {
 										<Table sx={{ minWidth: 650 }} aria-label="simple table">
 											<TableHead>
 												<TableRow>
+													<TableCell>Name</TableCell>
 													<TableCell>Score</TableCell>
 													<TableCell align="left">Answers</TableCell>
 												</TableRow>
 											</TableHead>
 											<TableBody>
-												{result.map((e, index) => (
+												{quizzs.results.map((e, index) => (
 													<TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+														<TableCell component="th" scope="row">
+															{e.results[0].userAnswer}
+														</TableCell>
 														<TableCell component="th" scope="row">
 															{e.score}
 														</TableCell>
