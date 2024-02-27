@@ -93,7 +93,7 @@ const QuizzInfo = ({ quizzInfo }) => {
 					<tr key={index}>
 						<td style={{ fontWeight: '600', padding: '10px 0px', fontSize: '1.5rem' }}>{key}:</td>
 						<td style={{ paddingLeft: '40px' }}>
-							{quizzInfo[key]} {quizzInfo[key] == 'Points' ? 'Points' : ''}
+							{quizzInfo[key]} {key == 'Points' ? 'Points' : ''}
 						</td>
 					</tr>
 				))}
@@ -118,7 +118,6 @@ export default function Welcome({ quizz }) {
 	const handleClickSession = () => {
 		const quizzId = router.query.id;
 
-		console.log(`/api/session?s=${quizzId}`);
 		fetch(`/api/session?s=${quizzId}`)
 			.then((response) => {
 				if (response.ok) {
@@ -133,8 +132,7 @@ export default function Welcome({ quizz }) {
 				query.s = data._id;
 				query.q = '1';
 				router.push({
-					pathname: router.pathname,
-					query: query,
+					pathname: `/session/${data._id}`,
 				});
 			})
 			.catch((error) => {
