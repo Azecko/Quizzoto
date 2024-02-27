@@ -14,6 +14,7 @@ import { useQRCode } from 'next-qrcode';
 
 import Header from '../../components/header/header';
 import fetchSession from '../../../lib/fetchSession';
+import SessionTable from '@/components/sessionTable';
 
 const BoxStyle = {
 	borderRadius: '30px',
@@ -21,7 +22,7 @@ const BoxStyle = {
 	fontSize: '1.2rem',
 	boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
 	padding: '2rem',
-	height: '75vh',
+	height: 'calc(100vh - 210px)',
 	width: '94%',
 	color: '#696f79',
 	paddingTop: '0px',
@@ -83,48 +84,16 @@ export default function Session() {
 					<Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2}>
 						<Box gridColumn="span 2"></Box>
 						<Box gridColumn="span 10" style={BoxStyle}>
-							<Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2}>
-								<Box gridColumn="span 12" display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2}>
-									<Box gridColumn="span 6">
-										<h1>{quizzs.quizzTitle}</h1>
-									</Box>
-									<Box gridColumn="span 6" style={{ display: ' flex' }}>
-										<a target="_blank" href={`${new URL(window.location.href).origin}/quizz/${quizzs.quizzSlug}?s=${quizzs.sessionId}&q=1`}>{`${new URL(window.location.href).origin}/quizz/${quizzs.quizzSlug}?s=${quizzs.sessionId}&q=1`}</a>
-										<QRCode url={`${new URL(window.location.href).origin}/quizz/${quizzs.quizzSlug}?s=${quizzs.sessionId}&q=1`} />
-									</Box>
+							<Box gridColumn="span 12" display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2}>
+								<Box gridColumn="span 6">
+									<h1>{quizzs.quizzTitle}</h1>
 								</Box>
-
-								<Box gridColumn="span 12" style={{ overflow: 'scroll', height: '45vh' }}>
-									<TableContainer component={Paper}>
-										<Table sx={{ minWidth: 650 }} aria-label="simple table">
-											<TableHead>
-												<TableRow>
-													<TableCell>Name</TableCell>
-													<TableCell>Score</TableCell>
-													<TableCell align="left">Answers</TableCell>
-												</TableRow>
-											</TableHead>
-											<TableBody>
-												{quizzs.results.map((e, index) => (
-													<TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-														<TableCell component="th" scope="row">
-															{e.results[0].userAnswer}
-														</TableCell>
-														<TableCell component="th" scope="row">
-															{e.score}
-														</TableCell>
-														<TableCell component="th" scope="row">
-															<a target="_blank" href={`/result/${e._id}`}>
-																{e._id}
-															</a>
-														</TableCell>
-													</TableRow>
-												))}
-											</TableBody>
-										</Table>
-									</TableContainer>
+								<Box gridColumn="span 6" style={{ display: ' flex' }}>
+									<a target="_blank" href={`${new URL(window.location.href).origin}/quizz/${quizzs.quizzSlug}?s=${quizzs.sessionId}&q=1`}>{`${new URL(window.location.href).origin}/quizz/${quizzs.quizzSlug}?s=${quizzs.sessionId}&q=1`}</a>
+									<QRCode url={`${new URL(window.location.href).origin}/quizz/${quizzs.quizzSlug}?s=${quizzs.sessionId}&q=1`} />
 								</Box>
 							</Box>
+							<SessionTable data={quizzs.results} style={{ with: '100%', height: '100%' }} />
 						</Box>
 					</Box>
 				) : (
