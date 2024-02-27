@@ -56,6 +56,13 @@ db.quizzs.insert([
 		},
 		questions: [
 			{
+				questionTitle: 'Quel est votre nom ?',
+				questionType: 'textfield',
+				correctAnswer: ['javascript', 'js'],
+				pointsIfCorrect: 2,
+				minusPointsIfWrong: 1,
+			},
+			{
 				questionTitle: 'Qui est le meilleur développeur React du monde ?',
 				questionType: 'radios',
 				answers: ['Azecko', 'JaavLex', 'ponsfrilus', 'Dwesh163'],
