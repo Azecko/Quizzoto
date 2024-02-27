@@ -55,6 +55,7 @@ export default function Quizz() {
 
 	const [chartResult, setChartResult] = useState([]);
 
+	const windowSize = useWindowSize();
 	const router = useRouter();
 
 	useEffect(() => {
@@ -92,6 +93,27 @@ export default function Quizz() {
 		]);
 	}, [result]);
 
+	function useWindowSize() {
+		const [windowSize, setWindowSize] = useState({
+			width: undefined,
+			height: undefined,
+		});
+		useEffect(() => {
+			function handleResize() {
+				setWindowSize({
+					width: window.innerWidth,
+					height: window.innerHeight,
+				});
+			}
+			window.addEventListener('resize', handleResize);
+			handleResize();
+			return () => window.removeEventListener('resize', handleResize);
+		}, []);
+		console.log(windowSize);
+
+		return windowSize;
+	}
+
 	return (
 		<>
 			<Head>
@@ -103,7 +125,7 @@ export default function Quizz() {
 				<link rel="stylesheet" href="/result.css" />
 			</Head>
 			<main>
-				<Header />
+				<Header windowWidth={windowSize.width} />
 				{result?.statusCode ? (
 					<p>Merci de fournir un id de résultat correct dans l'URL.</p>
 				) : result && chartResult ? (
