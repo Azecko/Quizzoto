@@ -12,6 +12,45 @@ import Welcome from '@/components/quizz/welcome';
 
 import Header from '../../components/header/header';
 
+const BoxStyle = {
+	borderRadius: '30px',
+	fontWeight: '400',
+	fontSize: '1.2rem',
+	boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
+	padding: '2rem',
+	height: 'calc(100vh - 250px)',
+	color: '#696f79',
+	paddingTop: '0',
+	paddingLeft: '2.5rem',
+};
+
+const BtnStyle = {
+	appearance: 'button',
+	backfaceVisibility: 'hidden',
+	backgroundColor: '#405cf5',
+	borderRadius: '30px',
+	borderWidth: '0',
+	boxShadow: 'rgba(50, 50, 93, .1) 0 0 0 1px inset,rgba(50, 50, 93, .1) 0 2px 5px 0,rgba(0, 0, 0, .07) 0 1px 1px 0',
+	boxSizing: 'border-box',
+	color: '#fff',
+	cursor: 'pointer',
+	fontSize: '1rem',
+	height: '65px',
+	lineHeight: '1',
+	bottom: '0',
+	marginTop: 'calc(100vh - 650px)',
+	outline: 'none',
+	overflow: 'hidden',
+	position: 'relative',
+	right: '0',
+	textAlign: 'center',
+	textTransform: 'none',
+	transform: 'translateZ(0)',
+	transition: 'all .2s,box-shadow .08s ease-in',
+	userSelect: 'none',
+	width: '12rem',
+};
+
 export default function Quizz() {
 	const [quizz, setQuizz] = useState();
 	const [UserAnswer, setUserAnswer] = useState({});
@@ -20,46 +59,10 @@ export default function Quizz() {
 	const [questionId, setQuestionId] = useState(0);
 	const [quizzTitle, setQuizzTitle] = useState('');
 
+	const { register, handleSubmit } = useForm();
+	const windowSize = useWindowSize();
+
 	const router = useRouter();
-
-	const BoxStyle = {
-		borderRadius: '30px',
-		fontWeight: '400',
-		fontSize: '1.2rem',
-		boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
-		padding: '2rem',
-		height: '75vh',
-		width: '94%',
-		color: '#696f79',
-		paddingTop: '0px',
-		paddingLeft: '2.5rem',
-	};
-
-	const BtnStyle = {
-		appearance: 'button',
-		backfaceVisibility: 'hidden',
-		backgroundColor: '#405cf5',
-		borderRadius: '30px',
-		borderWidth: '0',
-		boxShadow: 'rgba(50, 50, 93, .1) 0 0 0 1px inset,rgba(50, 50, 93, .1) 0 2px 5px 0,rgba(0, 0, 0, .07) 0 1px 1px 0',
-		boxSizing: 'border-box',
-		color: '#fff',
-		cursor: 'pointer',
-		fontSize: '1rem',
-		height: '65px',
-		lineHeight: '1',
-		margin: '110px 0 0',
-		outline: 'none',
-		overflow: 'hidden',
-		position: 'relative',
-		right: '0',
-		textAlign: 'center',
-		textTransform: 'none',
-		transform: 'translateZ(0)',
-		transition: 'all .2s,box-shadow .08s ease-in',
-		userSelect: 'none',
-		width: '20%',
-	};
 
 	useEffect(() => {
 		if (!quizz) {
@@ -95,14 +98,6 @@ export default function Quizz() {
 		}
 	}, [router.query.q]);
 
-	// useEffect(() => {
-	// 	const url = new URL(window.location.href);
-	// 	setQuizzId(url.pathname.split('/')[2]);
-	// 	const SearchParams = new URLSearchParams(url.search);
-	// }, []);
-
-	const { register, handleSubmit } = useForm();
-
 	async function getResult(UserAnswer) {
 		const result = await setQuizzResult(router.query.id, UserAnswer, router.query.s);
 		await router.push({
@@ -122,6 +117,27 @@ export default function Quizz() {
 		}
 	};
 
+	function useWindowSize() {
+		const [windowSize, setWindowSize] = useState({
+			width: undefined,
+			height: undefined,
+		});
+		useEffect(() => {
+			function handleResize() {
+				setWindowSize({
+					width: window.innerWidth,
+					height: window.innerHeight,
+				});
+			}
+			window.addEventListener('resize', handleResize);
+			handleResize();
+			return () => window.removeEventListener('resize', handleResize);
+		}, []);
+		console.log(windowSize);
+
+		return windowSize;
+	}
+
 	return (
 		<>
 			<Head>
@@ -136,26 +152,46 @@ export default function Quizz() {
 				<link href="https://fonts.googleapis.com/css2?family=Anta&family=Bebas+Neue&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet" />
 			</Head>
 			<main>
-				<Header quizzTitle={quizzTitle} />
+				<Header quizzTitle={quizzTitle} windowWidth={windowSize.width} />
 				{quizz?.statusCode != 200 ? (
 					<p>Merci de fournir un id de quizz correct dans l'URL.</p>
 				) : questionId == 0 ? (
-					<Welcome quizz={quizz} />
+					<Welcome quizz={quizz} windowWidth={windowSize.width} />
+				) : windowSize.width < 1200 ? (
+					<Box className="box">
+						<Box style={{ display: 'flex', alignItems: 'center', textAlign: 'center', justifyContent: 'space-between' }}>
+							<h1>{quizz.quizzTitle}</h1>
+							<h4>
+								{questionId}/{quizz['questionsNumber']}
+							</h4>
+						</Box>
+						<Box>
+							<form onSubmit={handleSubmit(onSubmit)} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: 'calc(100vh - 260px)' }}>
+								<div>
+									<h3>{quizz.questions.questionTitle}</h3>
+									<Question question={quizz.questions} register={register} questionId={questionId} />
+								</div>
+								<Button type="submit" variant="contained" className="btn">
+									Question suivante
+								</Button>
+							</form>
+						</Box>
+					</Box>
 				) : (
 					<Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2}>
 						<Box gridColumn="span 2"></Box>
-						<Box gridColumn="span 10" style={BoxStyle}>
-							<Box style={{ width: '100%' }}>
+						<Box gridColumn="span 10" className="box">
+							<Box style={{ display: 'flex', alignItems: 'center', textAlign: 'center', justifyContent: 'space-between' }}>
 								<h1>{quizz.quizzTitle}</h1>
 							</Box>
 							<Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2} style={{ height: '100%' }}>
 								<Box gridColumn="span 8">
-									<form onSubmit={handleSubmit(onSubmit)}>
+									<form onSubmit={handleSubmit(onSubmit)} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: 'calc(100vh - 330px)' }}>
 										<div>
 											<h3>{quizz.questions.questionTitle}</h3>
 											<Question question={quizz.questions} register={register} questionId={questionId} />
 										</div>
-										<Button type="submit" variant="contained" style={BtnStyle}>
+										<Button type="submit" variant="contained" className="btn">
 											Question suivante
 										</Button>
 									</form>

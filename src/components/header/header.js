@@ -6,24 +6,39 @@ import Box from '@mui/material/Box';
 
 import { useState } from 'react';
 
-export default function Header() {
+export default function Header({ windowWidth }) {
 	const [searchContent, setSearchContent] = useState('');
 
 	const handleSearchChange = (content) => {
 		setSearchContent(content);
 	};
 
-	return (
+	if (windowWidth == undefined) {
+		windowWidth = 1201;
+	}
+
+	return windowWidth > 1200 ? (
 		<header style={{ width: '100%', display: 'flex', height: '110px', marginBottom: '20px' }}>
 			<Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2} style={{ width: '100%' }}>
 				<Box gridColumn="span 2">
-					<Logo />
+					<Logo windowWidth={windowWidth} />
 				</Box>
 				<Box gridColumn="span 8">
 					<SearchBar onSearchChange={handleSearchChange} />
 				</Box>
 
 				<Box gridColumn="span 2">
+					<User user={{ username: 'Dwesh45' }} />
+				</Box>
+			</Box>
+		</header>
+	) : (
+		<header style={{ width: '100%', height: '100px' }}>
+			<Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2} style={{ width: '100%' }}>
+				<Box gridColumn="span 6">
+					<Logo windowWidth={windowWidth} />
+				</Box>
+				<Box gridColumn="span 6">
 					<User user={{ username: 'Dwesh45' }} />
 				</Box>
 			</Box>
