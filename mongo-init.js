@@ -3,6 +3,7 @@ db = db.getSiblingDB('quizzoto');
 db.createCollection('results');
 db.createCollection('quizzs');
 db.createCollection('sessions');
+db.createCollection('users');
 
 db.quizzs.insert([
 	{
