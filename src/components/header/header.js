@@ -4,13 +4,20 @@ import SearchBar from './search';
 import Logo from './logo';
 import Box from '@mui/material/Box';
 
+import LoginButton from '../loginButton';
+
 import { useState } from 'react';
 
-export default function Header({ windowWidth }) {
+export default function Header({ windowWidth, setSearch }) {
 	const [searchContent, setSearchContent] = useState('');
 
 	const handleSearchChange = (content) => {
-		setSearchContent(content);
+		console.log(setSearch);
+		if (setSearch) {
+			setSearch(content);
+		} else {
+			setSearchContent(content);
+		}
 	};
 
 	if (windowWidth == undefined) {
@@ -28,6 +35,7 @@ export default function Header({ windowWidth }) {
 				</Box>
 
 				<Box gridColumn="span 2">
+					<LoginButton />
 					<User user={{ username: 'Dwesh45' }} />
 				</Box>
 			</Box>
