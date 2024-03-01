@@ -8,11 +8,19 @@ import { CircularProgress } from '@mui/material';
 
 import { getUserData } from '../../../lib/users';
 
+import * as React from 'react';
+import Checkbox from '@mui/material/Checkbox';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+
 export default function Page({ userSession, userData }) {
 	const [session, setSession] = useState(userSession);
 
 	const [user, setUser] = useState(userData);
 	const [isLoading, setIsLoading] = useState(true);
+	const [displayPointsChecked, setDisplayPointsChecked] = useState(false);
 
 	const router = useRouter();
 
@@ -21,6 +29,10 @@ export default function Page({ userSession, userData }) {
 	useEffect(() => {
 		setUser(userData);
 		setIsLoading(false);
+	}, [userData]);
+
+	useEffect(() => {
+		setDisplayPointsChecked(userData.displayPoints);
 	}, [userData]);
 
 	function useWindowSize() {
@@ -39,10 +51,13 @@ export default function Page({ userSession, userData }) {
 			handleResize();
 			return () => window.removeEventListener('resize', handleResize);
 		}, []);
-		console.log(windowSize);
 
 		return windowSize;
 	}
+
+	const handleChangeDisplayPoints = (event) => {
+		setDisplayPointsChecked(event.target.checked);
+	};
 
 	return (
 		<>
@@ -101,7 +116,21 @@ export default function Page({ userSession, userData }) {
 									</Box>
 									<Box gridColumn="span 6">
 										<p>username: {user.username}</p>
-										{user.points ? <p>Points: {user.points}</p> : <></>}
+										{user.points ? (
+											<div style={{ display: 'flex' }}>
+												<p>Points: {user.points} </p>
+												{session && session.user.email == user.email ? (
+													<>
+														<Checkbox checked={displayPointsChecked} onChange={handleChangeDisplayPoints} inputProps={{ 'aria-label': 'controlled' }} style={{ marginLeft: '12px' }} />
+														<p>Display points </p>
+													</>
+												) : (
+													<></>
+												)}
+											</div>
+										) : (
+											<></>
+										)}
 
 										<br />
 
