@@ -17,6 +17,7 @@ db.quizzs.insert([
 			Attempts: '1',
 			Points: '300',
 		},
+		creator: '00cceb31-99c6-4438-82db-0c774499e54a',
 		questions: [
 			{
 				questionTitle: 'Quel est votre nom ?',
@@ -62,6 +63,7 @@ db.quizzs.insert([
 			Attempts: '1',
 			Points: '1500',
 		},
+		creator: '00cceb31-99c6-4438-82db-0c774499e54a',
 		questions: [
 			{
 				questionTitle: 'Quel est votre nom ?',
