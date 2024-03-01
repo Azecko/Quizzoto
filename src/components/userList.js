@@ -12,7 +12,7 @@ export default function UserList({ users }) {
 	const router = useRouter();
 
 	if (!users) {
-		return;
+		return null;
 	}
 
 	const handleClick = (username) => {
@@ -20,7 +20,7 @@ export default function UserList({ users }) {
 	};
 
 	return (
-		<List dense sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+		<List dense sx={{ width: '100%', maxWidth: 280, bgcolor: 'background.paper' }}>
 			{users.map((e, index) => {
 				return (
 					<ListItem key={index} disablePadding>
@@ -29,6 +29,7 @@ export default function UserList({ users }) {
 								<Avatar alt={e.username} src={e.image} />
 							</ListItemAvatar>
 							<ListItemText primary={e.username} />
+							{e.displayPoints ? <ListItemText primary={e.points} sx={{ textAlign: 'right' }} /> : <></>}
 						</ListItemButton>
 					</ListItem>
 				);

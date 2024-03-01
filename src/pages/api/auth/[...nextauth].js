@@ -31,6 +31,8 @@ export const authOptions = {
 					provider: user.account.provider,
 					company: user.profile.company,
 					name: user.profile.name,
+					points: 0,
+					displayPoints: false,
 				};
 				await db.collection('users').insertOne(newUser);
 			}

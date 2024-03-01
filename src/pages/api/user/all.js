@@ -11,6 +11,8 @@ export default async function Session(req, res) {
 				projection: {
 					username: 1,
 					image: 1,
+					displayPoints: 1,
+					points: { $cond: { if: { $eq: ['$displayPoints', true] }, then: '$points', else: null } },
 				},
 			}
 		)

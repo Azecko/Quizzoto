@@ -70,6 +70,8 @@ export default function Page({ userSession, userData }) {
 								</div>
 
 								<p>username: {user.username}</p>
+								{user.points ? <p>Points: {user.points}</p> : <></>}
+								<br />
 								{session && session.user.email == user.email ? (
 									<>
 										<p>company: {user.company}</p>
@@ -99,12 +101,16 @@ export default function Page({ userSession, userData }) {
 									</Box>
 									<Box gridColumn="span 6">
 										<p>username: {user.username}</p>
+										{user.points ? <p>Points: {user.points}</p> : <></>}
+
+										<br />
+
 										{session && session.user.email == user.email ? (
 											<>
 												<p>company: {user.company}</p>
 												<p>Name: {user.name}</p>
 												<p>Email: {user.email}</p>
-												<p>provider: {user.provider}</p>
+												<p>Provider: {user.provider}</p>
 											</>
 										) : (
 											<></>
