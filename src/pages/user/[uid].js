@@ -70,7 +70,7 @@ export default function Page({ userSession, userData }) {
 								</div>
 
 								<p>username: {user.username}</p>
-								{session.user.email == user.email ? (
+								{session && session.user.email == user.email ? (
 									<>
 										<p>company: {user.company}</p>
 										<p>Name: {user.name}</p>
@@ -99,7 +99,7 @@ export default function Page({ userSession, userData }) {
 									</Box>
 									<Box gridColumn="span 6">
 										<p>username: {user.username}</p>
-										{session.user.email == user.email ? (
+										{session && session.user.email == user.email ? (
 											<>
 												<p>company: {user.company}</p>
 												<p>Name: {user.name}</p>
@@ -122,15 +122,6 @@ export default function Page({ userSession, userData }) {
 			</main>
 		</>
 	);
-}
-
-async function fetchUser(uid) {
-	const username = useRouter().query.uid;
-	const response = await fetch(`/api/users/${username}`);
-	if (!response.ok) {
-		throw new Error('Failed to fetch user data');
-	}
-	return response.json();
 }
 
 export async function getServerSideProps(context) {
