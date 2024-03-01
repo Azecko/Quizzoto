@@ -32,7 +32,14 @@ export default function Header({ windowWidth, setSearch }) {
 					<SearchBar onSearchChange={handleSearchChange} />
 				</Box>
 
-				<Box gridColumn="span 2">
+				<Box
+					gridColumn="span 2"
+					style={{
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: 'center',
+						height: '100%',
+					}}>
 					<LoginButton />
 				</Box>
 			</Box>
@@ -40,11 +47,18 @@ export default function Header({ windowWidth, setSearch }) {
 	) : (
 		<header style={{ width: '100%', height: '100px' }}>
 			<Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2} style={{ width: '100%' }}>
-				<Box gridColumn="span 6">
+				<Box gridColumn="span 5">
 					<Logo windowWidth={windowWidth} />
 				</Box>
-				<Box gridColumn="span 6">
-					<LoginButton />
+				<Box
+					gridColumn="span 7"
+					style={{
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: 'center',
+						height: '100%',
+					}}>
+					<LoginButton size={0.5} />
 				</Box>
 			</Box>
 		</header>
