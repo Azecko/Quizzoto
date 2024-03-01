@@ -5,6 +5,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import User from './header/user';
 import { useMediaQuery } from 'react-responsive';
+import { useRouter } from 'next/router';
 
 export default function LoginButton() {
 	const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
@@ -33,6 +34,7 @@ export default function LoginButton() {
 	};
 
 	const { data: session } = useSession();
+	const router = useRouter();
 
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const open = Boolean(anchorEl);
@@ -41,6 +43,11 @@ export default function LoginButton() {
 	};
 	const handleClose = () => {
 		setAnchorEl(null);
+	};
+
+	const handleProfileClick = () => {
+		handleClose();
+		router.push(`/user/${session.user.username}`);
 	};
 
 	if (session) {
@@ -69,7 +76,7 @@ export default function LoginButton() {
 						vertical: 'top',
 						horizontal: 'left',
 					}}>
-					<MenuItem onClick={handleClose}>Profile</MenuItem>
+					<MenuItem onClick={handleProfileClick}>Profile</MenuItem>
 					<MenuItem onClick={handleClose}>My account</MenuItem>
 					<MenuItem onClick={() => signOut()}>Logout</MenuItem>
 				</Menu>
