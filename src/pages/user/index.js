@@ -77,7 +77,10 @@ export default function Page() {
 				<Header setSearch={setSearch} />
 
 				{windowSize.width < 1200 ? (
-					<Box className="box">{session && !isLoading && <UserList users={filteredUsers} />}</Box>
+					<Box className="box">
+						{session && !isLoading && <UserList users={filteredUsers} />}
+						{session == null ? <p>Please sign in to search user.</p> : <></>}
+					</Box>
 				) : (
 					<Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2}>
 						<Box gridColumn="span 2"></Box>
@@ -85,10 +88,10 @@ export default function Page() {
 							<h1>User List</h1>
 
 							{session && !isLoading && <UserList users={filteredUsers} />}
+							{session == null ? <p>Please sign in to search user.</p> : <></>}
 						</Box>
 					</Box>
 				)}
-				{!session && <p>Please sign in to search user.</p>}
 			</main>
 		</>
 	);
