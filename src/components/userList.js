@@ -24,7 +24,7 @@ export default function UserList({ users }) {
 			{users.map((e, index) => {
 				return (
 					<ListItem key={index} disablePadding>
-						<ListItemButton onClick={() => handleClick(e.username)}>
+						<ListItemButton onClick={() => handleClick(e.username)} style={{ padding: '12px' }}>
 							<ListItemAvatar>
 								<Avatar alt={e.username} src={e.image} />
 							</ListItemAvatar>
