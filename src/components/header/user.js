@@ -31,7 +31,7 @@ export default function User({ user }) {
 		return (
 			<Box style={userContainerStyles}>
 				<img src={session.user.image} style={imgStyle} />
-				<p style={usernameStyles}>{session.user.name}</p>
+				<p style={usernameStyles}>{session.user.username}</p>
 			</Box>
 		);
 	} else {
