@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { Button } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import Rank from './rank';
+import { useSession } from 'next-auth/react';
 
 const BoxStyle = {
 	borderRadius: '30px',
@@ -103,6 +104,8 @@ const QuizzInfo = ({ quizzInfo }) => {
 };
 
 export default function Welcome({ quizz }) {
+	const { data: session } = useSession();
+
 	const router = useRouter();
 
 	const handleClick = () => {
@@ -169,9 +172,13 @@ export default function Welcome({ quizz }) {
 											Start
 										</Button>
 									</Link>
-									<Button type="button" onClick={handleClickSession} variant="contained" style={BtnStyleSecondary}>
-										Start a session
-									</Button>
+									{session != null ? (
+										<Button type="button" onClick={handleClickSession} variant="contained" style={BtnStyleSecondary}>
+											Start a session
+										</Button>
+									) : (
+										<></>
+									)}
 
 									{/* <Link href={{ pathname: router.pathname, query: { ...router.query, q: '1' } }} passHref style={{  }}>
 										<Button type="button" onClick={handleClick} variant="contained" style={BtnStyleSecondary}>
