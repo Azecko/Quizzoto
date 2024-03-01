@@ -3,13 +3,14 @@ import Head from 'next/head';
 import { set, useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
+
 import fetchQuizz from '../../../lib/fetchQuizz';
 import setQuizzResult from '../../../lib/setQuizzResult';
 import Question from '@/components/question';
 import QuizzTimeline from '@/components/quizzTimeline';
 import Box from '@mui/material/Box';
 import Welcome from '@/components/quizz/welcome';
-
 import Header from '../../components/header/header';
 
 const BoxStyle = {
@@ -52,6 +53,8 @@ const BtnStyle = {
 };
 
 export default function Quizz() {
+	const { data: session } = useSession();
+
 	const [quizz, setQuizz] = useState();
 	const [UserAnswer, setUserAnswer] = useState({});
 	const [quizzId, setQuizzId] = useState('');
@@ -99,7 +102,7 @@ export default function Quizz() {
 	}, [router.query.q]);
 
 	async function getResult(UserAnswer) {
-		const result = await setQuizzResult(router.query.id, UserAnswer, router.query.s);
+		const result = await setQuizzResult(router.query.id, UserAnswer, router.query.s, session);
 		await router.push({
 			pathname: `/result/${result._id}`,
 		});

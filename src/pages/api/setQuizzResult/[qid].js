@@ -19,6 +19,8 @@ export default async function handler(req, res) {
 		return res.status(405).json({ statusCode: 405, message: `This request method is not valid on this route.` });
 	}
 
+	req.body = JSON.parse(req.body);
+
 	let quizzId = null;
 	let sessionId = req.query.s;
 
@@ -36,12 +38,13 @@ export default async function handler(req, res) {
 		try {
 			JSON.parse(str);
 		} catch (e) {
-			return req.body;
+			return req.body.answers;
 		}
-		return JSON.parse(req.body);
+		return JSON.parse(req.body.answers);
 	}
 
-	const answers = isJsonString(req.body);
+	console.log('req.body', req.body);
+	const answers = isJsonString(req.body.answers);
 	var results = [];
 	var score = 0;
 
@@ -150,6 +153,8 @@ export default async function handler(req, res) {
 		score,
 		results,
 		sessionId,
+		player: req.body.info.user.id,
+		time: Date.now(),
 	};
 
 	db.collection('results').insertOne(returnObject);
