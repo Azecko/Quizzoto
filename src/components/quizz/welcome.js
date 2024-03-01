@@ -120,8 +120,19 @@ export default function Welcome({ quizz }) {
 	};
 	const handleClickSession = () => {
 		const quizzId = router.query.id;
+		const requestData = {
+			ownerId: session.user.id,
+		};
 
-		fetch(`/api/session?s=${quizzId}`)
+		const requestOptions = {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(requestData),
+		};
+
+		fetch(`/api/session?s=${quizzId}`, requestOptions)
 			.then((response) => {
 				if (response.ok) {
 					return response.json();
@@ -130,7 +141,6 @@ export default function Welcome({ quizz }) {
 				}
 			})
 			.then((data) => {
-				console.log('response', data);
 				const query = { ...router.query };
 				query.s = data._id;
 				query.q = '1';
