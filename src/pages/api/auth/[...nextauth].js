@@ -23,7 +23,6 @@ export const authOptions = {
 						provider: account.provider,
 						company: profile.company,
 						name: profile.name,
-						id: uuidv4(),
 					},
 				};
 				await db.collection('users').updateOne({ email: user.email }, updatedUser);
