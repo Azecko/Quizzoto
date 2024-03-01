@@ -4,8 +4,10 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import User from './header/user';
+import { useMediaQuery } from 'react-responsive';
 
 export default function LoginButton() {
+	const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
 	const BtnStyle = {
 		appearance: 'button',
 		backfaceVisibility: 'hidden',
@@ -41,14 +43,18 @@ export default function LoginButton() {
 		setAnchorEl(null);
 	};
 
-	
-
 	if (session) {
 		return (
 			<div>
-				<Button id="demo-positioned-button" aria-controls={open ? 'demo-positioned-menu' : undefined} aria-haspopup="true" aria-expanded={open ? 'true' : undefined} onClick={handleClick}>
-					<User />
-				</Button>
+				{isMobile ? (
+					<Button aria-controls={open ? 'demo-positioned-menu' : undefined} aria-haspopup="true" aria-expanded={open ? 'true' : undefined} onClick={handleClick}>
+						<User />
+					</Button>
+				) : (
+					<Button id="demo-positioned-button" aria-controls={open ? 'demo-positioned-menu' : undefined} aria-haspopup="true" aria-expanded={open ? 'true' : undefined} onClick={handleClick}>
+						<User />
+					</Button>
+				)}
 				<Menu
 					id="demo-positioned-menu"
 					aria-labelledby="demo-positioned-button"
@@ -63,6 +69,8 @@ export default function LoginButton() {
 						vertical: 'top',
 						horizontal: 'left',
 					}}>
+					<MenuItem onClick={handleClose}>Profile</MenuItem>
+					<MenuItem onClick={handleClose}>My account</MenuItem>
 					<MenuItem onClick={() => signOut()}>Logout</MenuItem>
 				</Menu>
 			</div>
