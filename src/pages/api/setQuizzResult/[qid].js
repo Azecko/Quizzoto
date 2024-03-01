@@ -153,7 +153,7 @@ export default async function handler(req, res) {
 		score,
 		results,
 		sessionId,
-		player: req.body.info.user.id,
+		player: req.body.info ? req.body.info.user.id : 'anonymous',
 		time: Date.now(),
 	};
 
