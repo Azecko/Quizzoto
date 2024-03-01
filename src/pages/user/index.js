@@ -4,6 +4,7 @@ import { getSession, useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Box from '@mui/material/Box';
+import { CircularProgress } from '@mui/material';
 
 export default function Page() {
 	const { data: session, status } = useSession();
@@ -22,7 +23,6 @@ export default function Page() {
 			const response = await fetch(`/api/user/all`);
 			const jsonData = await response.json();
 			setUsers(jsonData);
-			console.log(jsonData);
 			setIsLoading(false);
 		};
 		getData();
@@ -55,7 +55,6 @@ export default function Page() {
 			handleResize();
 			return () => window.removeEventListener('resize', handleResize);
 		}, []);
-		console.log(windowSize);
 
 		return windowSize;
 	}
@@ -78,8 +77,14 @@ export default function Page() {
 
 				{windowSize.width < 1200 ? (
 					<Box className="box">
-						{session && !isLoading && <UserList users={filteredUsers} />}
-						{session == null ? <p>Please sign in to search user.</p> : <></>}
+						<h1>User List</h1>
+						{!isLoading ? (
+							<UserList users={filteredUsers} />
+						) : (
+							<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', verticalAlign: 'center', height: '100%' }}>
+								<CircularProgress />
+							</Box>
+						)}
 					</Box>
 				) : (
 					<Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2}>
@@ -87,8 +92,13 @@ export default function Page() {
 						<Box gridColumn="span 10" className="box">
 							<h1>User List</h1>
 
-							{session && !isLoading && <UserList users={filteredUsers} />}
-							{session == null ? <p>Please sign in to search user.</p> : <></>}
+							{!isLoading ? (
+								<UserList users={filteredUsers} />
+							) : (
+								<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', verticalAlign: 'center', height: '100%' }}>
+									<CircularProgress />
+								</Box>
+							)}
 						</Box>
 					</Box>
 				)}
