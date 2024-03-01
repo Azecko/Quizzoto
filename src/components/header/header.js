@@ -1,5 +1,4 @@
 import React from 'react';
-import User from './user';
 import SearchBar from './search';
 import Logo from './logo';
 import Box from '@mui/material/Box';
@@ -12,7 +11,6 @@ export default function Header({ windowWidth, setSearch }) {
 	const [searchContent, setSearchContent] = useState('');
 
 	const handleSearchChange = (content) => {
-		console.log(setSearch);
 		if (setSearch) {
 			setSearch(content);
 		} else {
@@ -36,7 +34,6 @@ export default function Header({ windowWidth, setSearch }) {
 
 				<Box gridColumn="span 2">
 					<LoginButton />
-					<User user={{ username: 'Dwesh45' }} />
 				</Box>
 			</Box>
 		</header>
@@ -47,7 +44,7 @@ export default function Header({ windowWidth, setSearch }) {
 					<Logo windowWidth={windowWidth} />
 				</Box>
 				<Box gridColumn="span 6">
-					<User user={{ username: 'Dwesh45' }} />
+					<LoginButton />
 				</Box>
 			</Box>
 		</header>
