@@ -1,15 +1,15 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import fetchQuizzs from '../../../lib/fetchQuizzs';
-import Box from '@mui/material/Box';
+import { useSession } from 'next-auth/react';
 import { CircularProgress } from '@mui/material';
+
+import fetchQuizzs from '../../../lib/fetchQuizzs';
+
+import Box from '@mui/material/Box';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
-import ListSubheader from '@mui/material/ListSubheader';
-import IconButton from '@mui/material/IconButton';
-import InfoIcon from '@mui/icons-material/Info';
 import Avatar from 'boring-avatars';
 
 import Header from '../../components/header/header';
@@ -17,6 +17,8 @@ import Header from '../../components/header/header';
 export default function Quizz() {
 	const [quizzs, setQuizzs] = useState();
 	const [isLoading, setIsLoading] = useState(true);
+
+	const { data: session } = useSession();
 
 	const router = useRouter();
 
