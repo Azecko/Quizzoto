@@ -15,8 +15,10 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import CircularProgress from '@mui/material/CircularProgress';
 import { PieChart } from '@mui/x-charts/PieChart';
+import { getSession, useSession } from 'next-auth/react';
 
 import Header from '../../components/header/header';
+import getResults from '../../../lib/results';
 
 const BoxStyle = {
 	borderRadius: '30px',
@@ -32,7 +34,6 @@ const BoxStyle = {
 };
 
 function countAnswers(data) {
-	console.log(data);
 	let trueCount = 0;
 	let falseCount = 0;
 	let nullCount = 0;
@@ -50,7 +51,7 @@ function countAnswers(data) {
 	return { trueCount, falseCount, nullCount };
 }
 
-export default function Quizz() {
+export default function Quizz({ userSession, userResult }) {
 	const [result, setResult] = useState();
 
 	const [chartResult, setChartResult] = useState([]);
@@ -59,19 +60,15 @@ export default function Quizz() {
 	const router = useRouter();
 
 	useEffect(() => {
-		if (!router.query.id) {
+		if (!userResult) {
 			return;
 		}
 
-		const getData = async () => {
-			const jsonData = await fetchResult(router.query.id);
-			setResult(jsonData);
-		};
-		getData();
-	}, [router.query.id]);
+		setResult(userResult);
+	}, [result]);
 
 	useEffect(() => {
-		if (!result) {
+		if (!result || result == 401) {
 			return;
 		}
 		const { trueCount, falseCount, nullCount } = countAnswers(result.results);
@@ -109,10 +106,11 @@ export default function Quizz() {
 			handleResize();
 			return () => window.removeEventListener('resize', handleResize);
 		}, []);
-		console.log(windowSize);
 
 		return windowSize;
 	}
+
+	console.log(result);
 
 	return (
 		<>
@@ -126,12 +124,14 @@ export default function Quizz() {
 			</Head>
 			<main>
 				<Header windowWidth={windowSize.width} />
-				{result?.statusCode ? (
-					<p>Merci de fournir un id de résultat correct dans l'URL.</p>
-				) : result && chartResult ? (
-					<Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2}>
-						<Box gridColumn="span 2"></Box>
-						<Box gridColumn="span 10" style={BoxStyle}>
+				<Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2}>
+					<Box gridColumn="span 2"></Box>
+					<Box gridColumn="span 10" style={BoxStyle}>
+						{result?.statusCode || userResult == 401 ? (
+							<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', verticalAlign: 'center', height: '100%' }}>
+								<p>Merci de fournir un id de résultat correct dans l'URL.</p>
+							</Box>
+						) : result && chartResult ? (
 							<Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2}>
 								<Box gridColumn="span 12" display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2}>
 									<Box gridColumn="span 10">
@@ -185,14 +185,28 @@ export default function Quizz() {
 									<QuizzTimeline quizzId={router.query.id} result={result} />
 								</Box> */}
 							</Box>
-						</Box>
+						) : (
+							<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', verticalAlign: 'center', height: '100%' }}>
+								<CircularProgress />
+							</Box>
+						)}
 					</Box>
-				) : (
-					<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', verticalAlign: 'center', height: '100%' }}>
-						<CircularProgress />
-					</Box>
-				)}
+				</Box>
 			</main>
 		</>
 	);
+}
+
+export async function getServerSideProps(context) {
+	const session = await getSession(context);
+	const { rid } = context.params;
+
+	let userResult = await getResults(session, rid);
+
+	return {
+		props: {
+			userSession: session ?? null,
+			userResult,
+		},
+	};
 }
