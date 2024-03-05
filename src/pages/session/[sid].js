@@ -65,8 +65,6 @@ export default function Session({ userSession, results }) {
 		setResult(JSON.parse(results));
 	}, [results]);
 
-	console.log(results);
-
 	return (
 		<>
 			<Head>

@@ -73,17 +73,8 @@ export default function Quizz({ userSession, userResult }) {
 		}
 		const { trueCount, falseCount, nullCount } = countAnswers(result.results);
 		let total = trueCount + falseCount + nullCount;
-		console.log('Nombre de réponses justes :', trueCount);
-		console.log('Nombre de réponses fausses :', falseCount);
-		console.log('Nombre de réponses nulles :', nullCount);
 
 		setChartResult([
-			{ id: 0, value: trueCount, label: 'True' },
-			{ id: 1, value: falseCount, label: 'False' },
-			{ id: 2, value: nullCount, label: 'Null' },
-		]);
-
-		console.log([
 			{ id: 0, value: trueCount, label: 'True' },
 			{ id: 1, value: falseCount, label: 'False' },
 			{ id: 2, value: nullCount, label: 'Null' },
@@ -109,8 +100,6 @@ export default function Quizz({ userSession, userResult }) {
 
 		return windowSize;
 	}
-
-	console.log(result);
 
 	return (
 		<>
