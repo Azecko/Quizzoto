@@ -33,7 +33,7 @@ export default function LoginButton() {
 		width: '5rem',
 	};
 
-	const { data: session } = useSession();
+	const { data: session, status } = useSession();
 	const router = useRouter();
 
 	const [anchorEl, setAnchorEl] = React.useState(null);
@@ -50,16 +50,20 @@ export default function LoginButton() {
 		router.push(`/user/${session.user.username}`);
 	};
 
+	if (status == 'loading') {
+		return;
+	}
+
 	if (session) {
 		return (
 			<div>
 				{isMobile ? (
-					<Button aria-controls={open ? 'demo-positioned-menu' : undefined} aria-haspopup="true" aria-expanded={open ? 'true' : undefined} onClick={handleClick}>
-						<User />
+					<Button style={{ color: '#8d9299' }} aria-controls={open ? 'demo-positioned-menu' : undefined} aria-haspopup="true" aria-expanded={open ? 'true' : undefined} onClick={handleClick}>
+						<User user={session.user} scale={'90%'} />
 					</Button>
 				) : (
-					<Button id="demo-positioned-button" aria-controls={open ? 'demo-positioned-menu' : undefined} aria-haspopup="true" aria-expanded={open ? 'true' : undefined} onClick={handleClick}>
-						<User />
+					<Button style={{ color: '#8d9299' }} id="demo-positioned-button" aria-controls={open ? 'demo-positioned-menu' : undefined} aria-haspopup="true" aria-expanded={open ? 'true' : undefined} onClick={handleClick}>
+						<User user={session.user} scale={'90%'} />
 					</Button>
 				)}
 				<Menu

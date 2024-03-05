@@ -7,9 +7,19 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
+import User from './header/user';
 
 const columns = [
-	{ id: 'name', label: 'Name', minWidth: 170 },
+	{
+		id: 'user',
+		label: 'User',
+		minWidth: 10,
+		align: 'left',
+		renderCell: (params) => {
+			user;
+		},
+	},
+	{ id: 'name', label: 'name', minWidth: 300 },
 	{ id: 'score', label: 'score', minWidth: 100 },
 	{
 		id: 'href',
@@ -23,21 +33,31 @@ const columns = [
 ];
 
 export default function SessionTable({ data }) {
+	const [results, setResults] = React.useState([]);
+	const [page, setPage] = React.useState(0);
+	const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
 	let modifiedData = [];
 
-	for (const result of data) {
+	React.useEffect(() => {
+		if (data == undefined) {
+			return;
+		}
+		setResults(data);
+	}, [data]);
+
+	for (const result of results) {
 		modifiedData.push({
-			name: result.results[0].userAnswer,
+			user: <User user={result.player} scale={'80%'} />,
 			score: result.score,
 			href: (
 				<a target="_blank" href={`/result/${result._id}`}>
 					{result._id}
 				</a>
 			),
+			name: result.player.name,
 		});
 	}
-	const [page, setPage] = React.useState(0);
-	const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
 	const handleChangePage = (event, newPage) => {
 		setPage(newPage);
@@ -67,9 +87,8 @@ export default function SessionTable({ data }) {
 								<TableRow hover role="checkbox" tabIndex={-1} key={index}>
 									{columns.map((column) => {
 										const value = row[column.id];
-										console.log(value);
 										return (
-											<TableCell key={column.id} align={column.align}>
+											<TableCell key={column.id} align={column.align} style={{ padding: '0 16px 0 0' }}>
 												{column.format && typeof value === 'number' ? column.format(value) : value}
 											</TableCell>
 										);
