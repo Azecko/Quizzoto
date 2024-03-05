@@ -1,6 +1,8 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { getSession, useSession } from 'next-auth/react';
+
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -15,6 +17,7 @@ import { useQRCode } from 'next-qrcode';
 import Header from '../../components/header/header';
 import fetchSession from '../../../lib/fetchSession';
 import SessionTable from '@/components/sessionTable';
+import getSessionResults from '../../../lib/sessions';
 
 const BoxStyle = {
 	borderRadius: '30px',
@@ -49,22 +52,20 @@ function QRCode({ url }) {
 	);
 }
 
-export default function Session() {
+export default function Session({ userSession, results }) {
+	const [session, setSession] = useState(userSession);
 	const [quizzs, setResult] = useState();
 
 	const router = useRouter();
 
 	useEffect(() => {
-		if (!router.query.sid) {
+		if (!results) {
 			return;
 		}
-		const getData = async () => {
-			const jsonData = await fetchSession(router.query.sid);
-			console.log('jsonData', jsonData);
-			setResult(jsonData);
-		};
-		getData();
-	}, [router.query.sid]);
+		setResult(JSON.parse(results));
+	}, [results]);
+
+	console.log(results);
 
 	return (
 		<>
@@ -78,30 +79,49 @@ export default function Session() {
 			</Head>
 			<main>
 				<Header />
-				{quizzs?.statusCode ? (
-					<p>Merci de fournir un id de session correct dans l'URL.</p>
-				) : quizzs ? (
-					<Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2}>
-						<Box gridColumn="span 2"></Box>
-						<Box gridColumn="span 10" style={BoxStyle}>
-							<Box gridColumn="span 12" display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2}>
-								<Box gridColumn="span 6">
-									<h1>{quizzs.quizzTitle}</h1>
-								</Box>
-								<Box gridColumn="span 6" style={{ display: ' flex' }}>
-									<a target="_blank" href={`${new URL(window.location.href).origin}/quizz/${quizzs.quizzSlug}?s=${quizzs.sessionId}&q=1`}>{`${new URL(window.location.href).origin}/quizz/${quizzs.quizzSlug}?s=${quizzs.sessionId}&q=1`}</a>
-									<QRCode url={`${new URL(window.location.href).origin}/quizz/${quizzs.quizzSlug}?s=${quizzs.sessionId}&q=1`} />
-								</Box>
+
+				<Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2}>
+					<Box gridColumn="span 2"></Box>
+					<Box gridColumn="span 10" style={BoxStyle}>
+						{quizzs?.statusCode || results === 401 ? (
+							<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+								<p>Merci de fournir un id de session correct dans l'URL.</p>
 							</Box>
-							<SessionTable data={quizzs.results} style={{ with: '100%', height: '100%' }} />
-						</Box>
+						) : quizzs ? (
+							<>
+								<Box gridColumn="span 12" display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2}>
+									<Box gridColumn="span 6">
+										<h1>{quizzs.quizzTitle}</h1>
+									</Box>
+									<Box gridColumn="span 6" style={{ display: 'flex', alignItems: 'center' }}>
+										<a target="_blank" href={`${new URL(window.location.href).origin}/quizz/${quizzs.quizzSlug}?s=${quizzs.sessionId}&q=1`}>{`${new URL(window.location.href).origin}/quizz/${quizzs.quizzSlug}?s=${quizzs.sessionId}&q=1`}</a>
+										<QRCode url={`${new URL(window.location.href).origin}/quizz/${quizzs.quizzSlug}?s=${quizzs.sessionId}&q=1`} />
+									</Box>
+								</Box>
+								<SessionTable data={quizzs.results} style={{ width: '100%', height: '100%' }} />
+							</>
+						) : (
+							<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+								<CircularProgress />
+							</Box>
+						)}
 					</Box>
-				) : (
-					<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', verticalAlign: 'center', height: '100%' }}>
-						<CircularProgress />
-					</Box>
-				)}
+				</Box>
 			</main>
 		</>
 	);
+}
+
+export async function getServerSideProps(context) {
+	const { sid } = context.params;
+
+	const session = await getSession(context);
+	const results = await getSessionResults(session, sid);
+
+	return {
+		props: {
+			userSession: session ?? null,
+			results,
+		},
+	};
 }
