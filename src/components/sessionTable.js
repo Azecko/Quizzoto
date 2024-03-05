@@ -55,7 +55,7 @@ export default function SessionTable({ data }) {
 					{result._id}
 				</a>
 			),
-			name: result.player.name,
+			name: result.player.name ? result.player.name : result.results[0].userAnswer,
 		});
 	}
 

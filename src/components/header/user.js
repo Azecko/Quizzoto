@@ -25,7 +25,7 @@ export default function User({ user, scale }) {
 		return (
 			<Box style={userContainerStyles}>
 				<img
-					src={user.image}
+					src={user.image ? user.image : 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png'}
 					style={{
 						width: '4rem',
 						height: '4rem',
@@ -33,7 +33,7 @@ export default function User({ user, scale }) {
 						scale: scale,
 					}}
 				/>
-				<p style={usernameStyles}>{user.username}</p>
+				<p style={usernameStyles}>{user.username ? user.username : 'Anonymus'}</p>
 			</Box>
 		);
 	} else {
