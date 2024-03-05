@@ -1,4 +1,5 @@
 import db from '../../../../lib/mongodb';
+import { v4 as uuidv4 } from 'uuid';
 
 var mongodb = require('mongodb');
 
@@ -43,19 +44,15 @@ export default async function handler(req, res) {
 		return JSON.parse(req.body.answers);
 	}
 
-	console.log('req.body', req.body);
 	const answers = isJsonString(req.body.answers);
 	var results = [];
 	var score = 0;
-
-	console.log(answers);
 
 	function arrayToLowerCase(array) {
 		return array.map((v) => v.toLowerCase());
 	}
 
 	function checkUserAnswersForCheckboxes(questionAnswers, userAnswers) {
-		console.log('checkUAFC', questionAnswers, userAnswers);
 		let questionPass = 0;
 		userAnswers.forEach((e, i) => {
 			if (arrayToLowerCase(questionAnswers).includes(e.toLowerCase())) {
@@ -143,6 +140,23 @@ export default async function handler(req, res) {
 		}
 	});
 
+	const id = uuidv4();
+
+	if (req.body.info == null) {
+		const newUser = {
+			id: id,
+			email: null,
+			username: null,
+			image: null,
+			provider: null,
+			company: null,
+			name: null,
+			points: null,
+			displayPoints: false,
+		};
+		await db.collection('users').insertOne(newUser);
+	}
+
 	let returnObject = {
 		quizz: {
 			id: quizz._id,
@@ -153,7 +167,7 @@ export default async function handler(req, res) {
 		score,
 		results,
 		sessionId,
-		player: req.body.info ? req.body.info.user.id : 'anonymous',
+		player: req.body.info ? req.body.info.user.id : id,
 		time: Date.now(),
 	};
 
