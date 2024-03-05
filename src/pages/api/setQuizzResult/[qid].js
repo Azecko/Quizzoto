@@ -140,23 +140,6 @@ export default async function handler(req, res) {
 		}
 	});
 
-	const id = uuidv4();
-
-	if (req.body.info == null) {
-		const newUser = {
-			id: id,
-			email: null,
-			username: null,
-			image: null,
-			provider: null,
-			company: null,
-			name: null,
-			points: null,
-			displayPoints: false,
-		};
-		await db.collection('users').insertOne(newUser);
-	}
-
 	let returnObject = {
 		quizz: {
 			id: quizz._id,
@@ -167,8 +150,9 @@ export default async function handler(req, res) {
 		score,
 		results,
 		sessionId,
-		player: req.body.info ? req.body.info.user.id : id,
+		player: req.body.info ? req.body.info.user.id : 'Anonymus',
 		time: Date.now(),
+		visibility: req.body.info ? 'private' : 'hidden',
 	};
 
 	db.collection('results').insertOne(returnObject);

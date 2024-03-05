@@ -88,7 +88,6 @@ export default function Quizz() {
 		const getData = async () => {
 			const jsonData = await fetchQuizz(id, questionId);
 			setQuizz(jsonData);
-			console.log(jsonData);
 		};
 		getData();
 	}, [questionId, router.query.id, quizzId]);
@@ -101,17 +100,25 @@ export default function Quizz() {
 		}
 	}, [router.query.q]);
 
-	async function getResult(UserAnswer) {
-		const result = await setQuizzResult(router.query.id, UserAnswer, router.query.s, session);
-		await router.push({
-			pathname: `/result/${result._id}`,
-		});
+	function getResult(UserAnswer) {
+		setQuizzResult(router.query.id, UserAnswer, router.query.s, session)
+			.then((result) => {
+				if (!localStorage.getItem('id')) {
+					localStorage.setItem('id', result.player);
+				}
+				return router.push({
+					pathname: `/result/${result._id}`,
+				});
+			})
+			.catch((error) => {
+				console.error("Une erreur s'est produite :", error);
+			});
 	}
+
 	const onSubmit = (data) => {
 		setUserAnswer(data);
 
 		if (questionId === quizz['questionsNumber']) {
-			console.log(UserAnswer);
 			getResult(data);
 		} else {
 			const nextQuestionId = questionId + 1;
@@ -136,7 +143,6 @@ export default function Quizz() {
 			handleResize();
 			return () => window.removeEventListener('resize', handleResize);
 		}, []);
-		console.log(windowSize);
 
 		return windowSize;
 	}
