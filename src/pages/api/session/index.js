@@ -21,6 +21,7 @@ export default async function Session(req, res) {
 		quizzId: quizzId,
 		ownerId: req.body.ownerId,
 		time: Date.now(),
+		share: [],
 	};
 
 	db.collection('session').insertOne(newSession);

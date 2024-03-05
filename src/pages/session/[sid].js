@@ -15,9 +15,11 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { useQRCode } from 'next-qrcode';
 
 import Header from '../../components/header/header';
+import ShareModal from '../../components/share';
 import fetchSession from '../../../lib/fetchSession';
 import SessionTable from '@/components/sessionTable';
 import getSessionResults from '../../../lib/sessions';
+import { Button } from '@mui/material';
 
 const BoxStyle = {
 	borderRadius: '30px',
@@ -77,7 +79,6 @@ export default function Session({ userSession, results }) {
 			</Head>
 			<main>
 				<Header />
-
 				<Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2}>
 					<Box gridColumn="span 2"></Box>
 					<Box gridColumn="span 10" style={BoxStyle}>
@@ -92,6 +93,7 @@ export default function Session({ userSession, results }) {
 										<h1>{quizzs.quizzTitle}</h1>
 									</Box>
 									<Box gridColumn="span 6" style={{ display: 'flex', alignItems: 'center' }}>
+										<ShareModal />
 										<a target="_blank" href={`${new URL(window.location.href).origin}/quizz/${quizzs.quizzSlug}?s=${quizzs.sessionId}&q=1`}>{`${new URL(window.location.href).origin}/quizz/${quizzs.quizzSlug}?s=${quizzs.sessionId}&q=1`}</a>
 										<QRCode url={`${new URL(window.location.href).origin}/quizz/${quizzs.quizzSlug}?s=${quizzs.sessionId}&q=1`} />
 									</Box>
