@@ -140,6 +140,7 @@ export default function Page({ userSession, userData }) {
 												<p>Name: {user.name}</p>
 												<p>Email: {user.email}</p>
 												<p>Provider: {user.provider}</p>
+												<p style={{ color: 'red' }}>id: {user.id}</p>
 											</>
 										) : (
 											<></>
