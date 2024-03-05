@@ -98,7 +98,7 @@ export default function ShareModal() {
 			{!isLoading ? (
 				<>
 					<Button onClick={handleOpen} style={buttonStyle}>
-						Open modal
+						Share Session
 					</Button>
 					<Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
 						<Box style={style}>
