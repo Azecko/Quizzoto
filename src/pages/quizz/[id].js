@@ -181,7 +181,7 @@ export default function Quizz() {
 									<Question question={quizz.questions} register={register} questionId={questionId} />
 								</div>
 								<Button type="submit" variant="contained" className="btn">
-									Question suivante
+									{questionId === quizz['questionsNumber'] ? 'Résultat' : 'Question suivante'}
 								</Button>
 							</form>
 						</Box>
@@ -204,7 +204,7 @@ export default function Quizz() {
 											<Question question={quizz.questions} register={register} questionId={questionId} />
 										</div>
 										<Button type="submit" variant="contained" className="btn">
-											Question suivante
+											{questionId === quizz['questionsNumber'] ? 'Résultat' : 'Question suivante'}
 										</Button>
 									</form>
 								</Box>
