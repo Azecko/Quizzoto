@@ -30,7 +30,7 @@ const buttonStyle = {
 	marginBottom: '1rem',
 };
 
-export default function ShareModal() {
+export default function ShareModal({ userSession }) {
 	const [open, setOpen] = React.useState(false);
 	const [searchTerm, setSearchTerm] = React.useState('');
 	const [filteredUsers, setFilteredUsers] = React.useState([]);

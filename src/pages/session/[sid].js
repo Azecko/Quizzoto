@@ -93,7 +93,7 @@ export default function Session({ userSession, results }) {
 										<h1>{quizzs.quizzTitle}</h1>
 									</Box>
 									<Box gridColumn="span 6" style={{ display: 'flex', alignItems: 'center' }}>
-										<ShareModal />
+										<ShareModal userSession={userSession} />
 										<a target="_blank" href={`${new URL(window.location.href).origin}/quizz/${quizzs.quizzSlug}?s=${quizzs.sessionId}&q=1`}>{`${new URL(window.location.href).origin}/quizz/${quizzs.quizzSlug}?s=${quizzs.sessionId}&q=1`}</a>
 										<QRCode url={`${new URL(window.location.href).origin}/quizz/${quizzs.quizzSlug}?s=${quizzs.sessionId}&q=1`} />
 									</Box>
