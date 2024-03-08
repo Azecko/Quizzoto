@@ -19,8 +19,8 @@ const columns = [
 			user;
 		},
 	},
-	{ id: 'name', label: 'name', minWidth: 300 },
-	{ id: 'score', label: 'score', minWidth: 100 },
+	{ id: 'name', label: 'name', minWidth: 300, align: 'left' },
+	{ id: 'score', label: 'score', minWidth: 100, align: 'left' },
 	{
 		id: 'href',
 		label: 'result',
@@ -88,7 +88,7 @@ export default function SessionTable({ data }) {
 									{columns.map((column) => {
 										const value = row[column.id];
 										return (
-											<TableCell key={column.id} align={column.align} style={{ padding: '0 16px 0 0' }}>
+											<TableCell key={column.id} align={column.align} style={{ padding: column.id == 'user' ? '0 16px 0 0' : '' }}>
 												{column.format && typeof value === 'number' ? column.format(value) : value}
 											</TableCell>
 										);
