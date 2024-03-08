@@ -3,8 +3,6 @@ import db from '../../../../lib/mongodb';
 var mongodb = require('mongodb');
 
 export default async function Share(req, res) {
-	console.log(req.body);
-	console.log(req.query.sid);
 	try {
 		const userId = req.body.user._id.toString();
 
@@ -13,6 +11,8 @@ export default async function Share(req, res) {
 
 		if (!session.share.includes(user.id)) {
 			session.share.push(user.id);
+		} else {
+			session.share.splice(session.share.indexOf(user.id), 1);
 		}
 
 		await db.collection('session').updateOne({ _id: new mongodb.ObjectId(req.query.sid) }, { $set: { share: session.share } });
