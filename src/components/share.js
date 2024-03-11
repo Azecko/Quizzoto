@@ -113,7 +113,7 @@ export default function ShareModal({ userSession }) {
 								Share Session
 							</Typography>
 							<TextField id="outlined-basic" label="Search" variant="outlined" value={searchTerm} onChange={handleSearch} fullWidth style={{ marginBottom: '1rem' }} />
-							<div>{filteredUsers.length > 0 ? renderUserButtons() : <p>No users found</p>}</div>
+							<div style={{ overflow: 'scroll', height: '80%' }}>{filteredUsers.length > 0 ? renderUserButtons() : <p>No users found</p>}</div>
 						</Box>
 					</Modal>
 				</>
