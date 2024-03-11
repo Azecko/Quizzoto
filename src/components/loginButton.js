@@ -50,6 +50,11 @@ export default function LoginButton() {
 		router.push(`/user/${session.user.username}`);
 	};
 
+	const handleQuizzsClick = () => {
+		handleClose();
+		router.push(`/quizzs/${session.user.username}`);
+	};
+
 	if (status == 'loading') {
 		return;
 	}
@@ -81,7 +86,7 @@ export default function LoginButton() {
 						horizontal: 'left',
 					}}>
 					<MenuItem onClick={handleProfileClick}>Profile</MenuItem>
-					{/* <MenuItem onClick={handleClose}>My account</MenuItem> */}
+					<MenuItem onClick={handleQuizzsClick}>Quizzs</MenuItem>
 					<MenuItem onClick={() => signOut()}>Logout</MenuItem>
 				</Menu>
 			</div>
