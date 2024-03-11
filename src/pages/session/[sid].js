@@ -4,13 +4,6 @@ import { useEffect, useState } from 'react';
 import { getSession, useSession } from 'next-auth/react';
 
 import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useQRCode } from 'next-qrcode';
 
@@ -93,7 +86,7 @@ export default function Session({ userSession, results }) {
 										<h1>{quizzs.quizzTitle}</h1>
 									</Box>
 									<Box gridColumn="span 6" style={{ display: 'flex', alignItems: 'center' }}>
-										<ShareModal />
+										<ShareModal userSession={userSession} />
 										<a target="_blank" href={`${new URL(window.location.href).origin}/quizz/${quizzs.quizzSlug}?s=${quizzs.sessionId}&q=1`}>{`${new URL(window.location.href).origin}/quizz/${quizzs.quizzSlug}?s=${quizzs.sessionId}&q=1`}</a>
 										<QRCode url={`${new URL(window.location.href).origin}/quizz/${quizzs.quizzSlug}?s=${quizzs.sessionId}&q=1`} />
 									</Box>

@@ -8,7 +8,7 @@ import User from './header/user';
 import TextField from '@mui/material/TextField';
 import { useRouter } from 'next/router';
 
-import { ShareFill } from 'react-bootstrap-icons';
+import { ShareFill, TrashFill } from 'react-bootstrap-icons';
 
 const style = {
 	position: 'absolute',
@@ -30,7 +30,7 @@ const buttonStyle = {
 	marginBottom: '1rem',
 };
 
-export default function ShareModal() {
+export default function ShareModal({ userSession }) {
 	const [open, setOpen] = React.useState(false);
 	const [searchTerm, setSearchTerm] = React.useState('');
 	const [filteredUsers, setFilteredUsers] = React.useState([]);
@@ -45,15 +45,21 @@ export default function ShareModal() {
 		setSearchTerm(e.target.value);
 	};
 
+	const getData = async () => {
+		const response = await fetch(`/api/user/all`, { method: 'POST', body: JSON.stringify({ sessionId: router.query.sid }) });
+		const jsonData = await response.json();
+		setUsers(jsonData);
+		setIsLoading(false);
+	};
+
 	React.useEffect(() => {
-		const getData = async () => {
-			const response = await fetch(`/api/user/all`);
-			const jsonData = await response.json();
-			setUsers(jsonData);
-			setIsLoading(false);
-		};
+		console.log('router', router.query.sid);
+		if (!router.query.sid) {
+			return;
+		}
+
 		getData();
-	}, []);
+	}, [router]);
 
 	React.useEffect(() => {
 		if (!searchTerm) {
@@ -80,14 +86,15 @@ export default function ShareModal() {
 		} catch (error) {
 			console.error('Error sharing user:', error.message);
 		}
+		getData();
 	};
 
 	const renderUserButtons = () => {
 		return filteredUsers.map((user, index) => (
 			<div key={index}>
-				<Button style={{ display: 'flex', justifyContent: 'space-between', width: '100%', color: '#696f79' }} onClick={() => shareUser(user)}>
+				<Button style={{ display: 'flex', justifyContent: 'space-between', width: '100%', color: '#696f79', backgroundColor: user.username === userSession.user.username ? 'rgb(246, 246, 246)' : '' }} onClick={() => shareUser(user)} disabled={user.username === userSession.user.username}>
 					<User user={user} />
-					<ShareFill size={20} />
+					{user.username !== userSession.user.username && (user.isShared ? <TrashFill size={20} /> : <ShareFill size={20} />)}
 				</Button>
 			</div>
 		));
@@ -98,22 +105,20 @@ export default function ShareModal() {
 			{!isLoading ? (
 				<>
 					<Button onClick={handleOpen} style={buttonStyle}>
-						Open modal
+						Share Session
 					</Button>
 					<Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
 						<Box style={style}>
-							<Typography id="modal-modal-title" variant="h6" component="h2">
+							<Typography id="modal-modal-title" variant="h6" component="h2" style={{ marginBottom: '15px' }}>
 								Share Session
 							</Typography>
 							<TextField id="outlined-basic" label="Search" variant="outlined" value={searchTerm} onChange={handleSearch} fullWidth style={{ marginBottom: '1rem' }} />
-							<div>{filteredUsers.length > 0 ? renderUserButtons() : <p>No users found</p>}</div>
+							<div style={{ overflow: 'scroll', height: '80%' }}>{filteredUsers.length > 0 ? renderUserButtons() : <p>No users found</p>}</div>
 						</Box>
 					</Modal>
 				</>
 			) : (
-				<Button onClick={handleOpen} style={buttonStyle}>
-					Open modal
-				</Button>
+				<Button style={buttonStyle}>Share Session</Button>
 			)}
 		</div>
 	);
