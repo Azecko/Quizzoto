@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Box from '@mui/material/Box';
-import { CircularProgress } from '@mui/material';
+import { Button, CircularProgress } from '@mui/material';
 
 import * as React from 'react';
 import Checkbox from '@mui/material/Checkbox';
@@ -78,7 +78,6 @@ export default function Page({ userSession, userData }) {
 								<div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
 									<img src={user.image} alt={user.name} style={{ borderRadius: '50%', width: '50%' }} />
 								</div>
-
 								<p>username: {user.username}</p>
 								{user.points ? <p>Points: {user.points}</p> : <></>}
 								<br />
@@ -92,6 +91,9 @@ export default function Page({ userSession, userData }) {
 								) : (
 									<></>
 								)}
+								<Button href={'/quizzs/' + user.username} variant="contained">
+									Quizz
+								</Button>
 							</>
 						) : (
 							<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', verticalAlign: 'center', height: '100%' }}>
@@ -140,6 +142,9 @@ export default function Page({ userSession, userData }) {
 										) : (
 											<></>
 										)}
+										<Button href={'/quizzs/' + user.username} variant="contained">
+											Quizz
+										</Button>
 									</Box>
 								</Box>
 							) : (
