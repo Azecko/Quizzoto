@@ -1,4 +1,3 @@
-import Header from '../../components/header/header';
 import { getSession, useSession } from 'next-auth/react';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
@@ -6,14 +5,10 @@ import Head from 'next/head';
 import Box from '@mui/material/Box';
 import { CircularProgress } from '@mui/material';
 
-import { getUserData } from '../../../lib/users';
-
 import * as React from 'react';
 import Checkbox from '@mui/material/Checkbox';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
+import Header from '@/components/header/header';
+import { getUserData } from '../../../lib/users';
 
 export default function Page({ userSession, userData }) {
 	const [session, setSession] = useState(userSession);
