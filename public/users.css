@@ -1,0 +1,39 @@
+* {
+    font-family: Poppins;
+}
+
+
+body {
+    background-color: "#FBF9F9";
+}
+
+
+.box {
+    border-radius: 30px;
+    font-weight: 400;
+    font-size: 1.2rem;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    padding: 2rem;
+    height: calc(100vh - 200px);
+    color: #696f79;
+    padding-top: 0;
+    padding-left: 2.5rem;
+}
+
+@media only screen and (max-width: 600px) {
+    h3 {
+        font-size: 1em;
+    }
+}
+
+@media only screen and (min-width: 601px) and (max-width: 1024px) {
+    h3 {
+        font-size: 1.1em;
+    }
+}
+
+@media only screen and (min-width: 1025px) {
+    h3 {
+        font-size: 1.4em;
+    }
+}

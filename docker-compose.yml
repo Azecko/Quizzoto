@@ -1,0 +1,31 @@
+version: '3.1'
+
+services:
+    quizzoto_db:
+        image: mongo
+        restart: always
+        container_name: quizzotoDB
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME:-root}
+            MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD:-sup3rs3cr3t}
+            MONGO_INITDB_USER_USERNAME: ${MONGO_INITDB_USER_USERNAME:-user}
+            MONGO_INITDB_USER_PASSWORD: ${MONGO_INITDB_USER_PASSWORD:-an0th3rs3cr3t}
+            MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE:-quizzoto}
+        ports:
+            - 27017:27017
+        volumes:
+            - ./data/mongo:/data/db
+            - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+
+    quizzoto_web:
+        image: node:hydrogen-slim
+        container_name: quizzoto
+        command: /bin/sh -c "cd /srv/app && npm install && npm run dev"
+        ports:
+            - 3000:3000
+        working_dir: /srv/app
+        volumes:
+            - type: bind
+              source: ./
+              target: /srv/app
+        tty: true
